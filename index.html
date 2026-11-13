@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Тёплая петля</title>
+<meta name="description" content="Сумки, серьги, игрушки и корзины ручной работы. Готовые вещи и заказ в своём цвете.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600&display=swap">
+<style>
+/* Замысел: сайт как стена из пастельной португальской плитки. Орнамент вышит стежками, игла с ниткой прошивает страницу сверху вниз. */
+:root {
+  --tile: #FBF8EF;
+  --grout: #E6DFCF;
+  --navy: #234B6E;
+  --ink: #1F3F5E;
+  --blue: #4A86B4;
+  --aqua: #A5D3CF;
+  --pink: #F4B3C2;
+  --rose: #D95F7F;
+  --sun: #F3CE5F;
+  --thread: #A3154B;
+  --shadow: rgba(31, 63, 94, .34);
+  --display: "Cormorant Garamond", "Georgia", serif;
+  --body: "Onest", "Helvetica Neue", Arial, sans-serif;
+  --gutter: clamp(16px, 5vw, 72px);
+  --t: clamp(120px, 12.5vw, 180px); /* сторона плитки на стене */
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--ink); overflow-x: hidden; -webkit-font-smoothing: antialiased;
+  font: 400 clamp(16px, 1vw + 12px, 18.5px)/1.6 var(--body);
+  background: var(--tile);
+}
+#wall { position: absolute; inset: 0 0 auto 0; z-index: -1; overflow: hidden; }
+#wall i { display: block; background: var(--wall) 0 0 / calc(var(--t) * 3) calc(var(--t) * 2); }
+img { max-width: 100%; height: auto; display: block; }
+[hidden] { display: none !important; }
+a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px dashed var(--rose); outline-offset: 4px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.04; margin: 0; text-wrap: balance; letter-spacing: -.005em; }
+h2 { font-size: clamp(2.2rem, 4.8vw, 3.8rem); }
+p { margin: 0; }
+.note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose); }
+
+html.rope, html.rope * { cursor: none !important; }
+#rope { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+
+/* белая табличка на стене: гладкая плитка с тонкой синей линией и угловыми розетками */
+.plaque {
+  position: relative; background-color: var(--tile); border: 8px solid var(--tile);
+  background-image: var(--c1), var(--c2), var(--c3), var(--c4); background-repeat: no-repeat; background-size: clamp(38px, 5vw, 60px);
+  background-position: left top, right top, right bottom, left bottom;
+  box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 1px var(--grout), 0 30px 50px -28px var(--shadow);
+}
+
+/* шапка и меню */
+.top { position: fixed; inset: 0 0 auto 0; z-index: 60; display: flex; justify-content: space-between; align-items: center; padding: 12px var(--gutter); pointer-events: none; }
+.top > * { pointer-events: auto; }
+.mark, .menu-btn { background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 8px 18px -10px var(--shadow); border: 5px solid var(--tile); }
+.mark { font: 600 1.4rem/1 var(--display); text-decoration: none; padding: .35em .8em; }
+.menu-btn { display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; font: italic 500 1.35rem/1 var(--display); }
+.menu-btn i { width: 40px; height: 40px; background: var(--m0) center / cover; transition: transform .7s cubic-bezier(.3, 1.4, .5, 1); }
+.menu-btn:hover i, .menu-open .menu-btn i { transform: rotate(180deg); }
+.menu {
+  position: fixed; inset: 0; z-index: 55; display: grid; place-items: center; padding: 90px var(--gutter) 40px;
+  background: var(--tile) var(--wall-full) 0 0 / calc(var(--t) * 3) calc(var(--t) * 2);
+  clip-path: circle(0 at calc(100% - var(--gutter) - 30px) 38px); visibility: hidden;
+  transition: clip-path .8s cubic-bezier(.7, 0, .2, 1), visibility 0s .8s;
+}
+.menu-open .menu { clip-path: circle(150vmax at calc(100% - var(--gutter) - 30px) 38px); visibility: visible; transition-delay: 0s; }
+.menu nav { display: grid; gap: clamp(4px, 1.4vh, 14px); padding: clamp(34px, 6vw, 70px) clamp(38px, 8vw, 110px); text-align: center; }
+.menu a { font: 600 clamp(1.9rem, 5.4vw, 3.4rem)/1.15 var(--display); text-decoration: none; transform: translateY(16px); opacity: 0; transition: transform .6s, opacity .6s, color .2s; }
+.menu-open .menu a { transform: none; opacity: 1; transition-delay: calc(.3s + var(--i) * .07s), calc(.3s + var(--i) * .07s), 0s; }
+.menu a:hover { color: var(--rose); font-style: italic; }
+
+/* основа и нить с иглой */
+main { position: relative; padding-inline: var(--gutter); }
+#thread { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+#thread path { fill: none; stroke-linecap: round; }
+#thread .ghost { stroke: var(--navy); stroke-width: 1.6; stroke-dasharray: .1 9; opacity: .35; }
+#thread .under { stroke: var(--tile); stroke-width: 15; filter: drop-shadow(0 2px 3px rgba(31, 63, 94, .35)); }
+#thread .st { stroke: var(--thread); stroke-width: 5; stroke-dasharray: 16 10; }
+#needle { filter: drop-shadow(0 3px 4px rgba(31, 63, 94, .5)); }
+section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto; }
+.knot { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 3; border: 3px solid var(--navy); background: var(--tile); box-shadow: 0 0 0 3px var(--tile); transition: background .4s, transform .5s cubic-bezier(.3, 2, .5, 1); }
+.knot.tied { background: var(--thread); border-color: var(--thread); transform: scale(.85); }
+.k-l { left: -17px; top: clamp(40px, 7vh, 80px); }
+.k-r { right: -17px; top: clamp(40px, 7vh, 80px); }
+
+/* полоса живых плиток */
+.band { position: relative; z-index: 1; display: flex; justify-content: center; overflow: hidden; margin: clamp(60px, 10vh, 120px) calc(-1 * var(--gutter)) 0; box-shadow: 0 0 0 6px var(--tile), 0 0 0 7.5px var(--blue), 0 30px 40px -26px var(--shadow); }
+.band i { flex: none; width: var(--t); aspect-ratio: 1; background: var(--d) center / cover; transition: transform .9s cubic-bezier(.3, 1.5, .5, 1); }
+.band.in i { animation: turn 1.1s cubic-bezier(.3, 1.3, .5, 1) backwards; animation-delay: calc(var(--n) * 70ms); }
+.band i:hover { transform: rotate(90deg) scale(.86); }
+@keyframes turn { from { transform: rotateY(90deg) scale(.7); } }
+
+/* вступление */
+.intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: clamp(24px, 5vw, 70px); padding-block: clamp(110px, 15vh, 160px) 10px; }
+.intro .plaque { padding: clamp(34px, 5vw, 64px) clamp(26px, 4.5vw, 60px); }
+.intro h1 { font-size: clamp(2.5rem, 5.6vw, 4.8rem); }
+.intro h1 em { font-style: italic; font-weight: 500; color: var(--rose); }
+.intro p { max-width: 32em; margin-top: 1.2em; }
+.pull { display: inline-flex; align-items: baseline; gap: 10px; margin-top: 1.4em; text-decoration: none; }
+.pull b { font-weight: 400; display: inline-block; animation: tug 2.2s ease-in-out infinite; }
+@keyframes tug { 50% { transform: translateY(8px); } }
+
+/* фото в плиточной раме: 8 плиток в ширину, 10 в высоту, фото 3:4 */
+.frame { position: relative; aspect-ratio: 8 / 10; padding: 12.5%; background: var(--d) 0 0 / 12.5% 10%; box-shadow: 0 0 0 1px var(--grout), 0 34px 54px -28px var(--shadow); transition: transform .9s cubic-bezier(.3, 1.5, .5, 1); }
+.frame::before { content: ""; position: absolute; inset: calc(12.5% - 7px); border: 7px solid var(--tile); box-shadow: 0 0 0 1.5px var(--blue), inset 0 0 0 1.5px var(--blue); z-index: 1; pointer-events: none; }
+.frame div { height: 100%; overflow: hidden; }
+.frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s cubic-bezier(.2, .8, .2, 1); }
+.item:hover .frame, .intro .frame:hover { transform: rotate(var(--tilt, -1.5deg)) translateY(-6px); }
+.item:hover .frame img, .intro .frame:hover img { transform: scale(1.07); }
+.intro .frame { justify-self: center; width: min(100%, 400px); animation: drop 1.3s cubic-bezier(.3, 1.4, .5, 1) backwards; }
+@keyframes drop { from { transform: translateY(-40px) rotate(-5deg); } }
+
+/* вещи */
+.works { padding-top: clamp(60px, 10vh, 120px); }
+.works-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px; padding: clamp(20px, 3vw, 34px) clamp(26px, 4.5vw, 60px); }
+.works-head .knot { left: 50%; bottom: -17px; margin-left: -9px; }
+.spools { display: flex; flex-wrap: wrap; gap: 8px; }
+.spool { padding: .4em 1em; border: 1.5px solid var(--navy); background: var(--tile); font-weight: 500; font-size: .92em; transition: background .25s, color .25s, transform .25s; }
+.spool:hover { transform: translateY(-2px); background: var(--aqua); }
+.spool[aria-pressed="true"] { background: var(--navy); color: var(--tile); }
+.items { display: grid; gap: clamp(70px, 12vh, 140px); padding-top: clamp(60px, 9vh, 110px); }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 6vw, 90px); }
+.item .frame { width: min(100%, 440px); justify-self: end; }
+.item.flip .frame { order: 2; justify-self: start; --tilt: 1.5deg; }
+.card { justify-self: start; width: min(100%, 400px); padding: clamp(30px, 3.4vw, 46px) clamp(24px, 3vw, 40px) clamp(24px, 3vw, 36px); }
+.item.flip .card { justify-self: end; }
+.card .knot { left: 50%; top: -17px; margin-left: -9px; }
+.card.swing { animation: swing 1.3s cubic-bezier(.3, 1.4, .5, 1); }
+@keyframes swing { 0% { rotate: 3deg; } 40% { rotate: -2deg; } 70% { rotate: 1deg; } 100% { rotate: 0deg; } }
+.card h3 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); margin: .1em 0 .35em; }
+.card p { font-size: .95em; }
+.card .cost { margin-top: .9em; font-weight: 600; }
+.want { display: inline-flex; gap: 8px; margin-top: 1.1em; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); transition: background .25s, gap .25s; }
+.want:hover { background: var(--rose); gap: 14px; }
+
+/* разделы-таблички */
+.panel { margin-top: clamp(60px, 10vh, 120px); padding: clamp(38px, 6vw, 70px) clamp(24px, 5vw, 70px); }
+.panel > p { max-width: 36em; margin-top: .9em; }
+
+/* свяжу что угодно: плитки переворачиваются */
+.any { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: clamp(8px, 1.2vw, 14px); margin-top: clamp(24px, 4vh, 44px); }
+.any button { position: relative; aspect-ratio: 1; perspective: 700px; }
+.any span { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; transition: transform .8s cubic-bezier(.3, 1.3, .5, 1); box-shadow: 0 0 0 1px var(--grout); }
+.any .f { background: var(--d) center / cover; }
+.any .f b { font: 600 1.25rem/1 var(--display); padding: .3em .7em; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 4px var(--tile); }
+.any .b { background: var(--navy); color: var(--tile); transform: rotateY(180deg); font: italic 500 1.35rem/1.15 var(--display); padding: 10px; text-align: center; }
+.any button:hover .f, .any button:focus-visible .f { transform: rotateY(-180deg); }
+.any button:hover .b, .any button:focus-visible .b { transform: rotateY(0); }
+
+/* свой заказ */
+.maker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); gap: clamp(24px, 5vw, 70px); align-items: center; margin-top: clamp(26px, 4vh, 44px); }
+.maker fieldset { border: 0; padding: 0; margin: 0 0 1.5em; min-width: 0; }
+.maker legend { padding: 0; margin-bottom: .6em; font: italic 500 1.45em/1 var(--display); color: var(--rose); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips label { position: relative; }
+.chips input { position: absolute; opacity: 0; inset: 0; }
+.chips span { display: block; padding: .4em 1em; border: 1.5px solid var(--navy); background: var(--tile); font-size: .93em; transition: background .2s, color .2s; }
+.chips input:checked + span { background: var(--navy); color: var(--tile); }
+.chips input:focus-visible + span { outline: 3px dashed var(--rose); outline-offset: 3px; }
+.yarns span { width: 44px; height: 44px; padding: 0; background: var(--c); transition: transform .35s cubic-bezier(.3, 2, .5, 1), box-shadow .2s; }
+.yarns input:checked + span { background: var(--c); transform: rotate(45deg) scale(.92); box-shadow: 0 0 0 3px var(--tile), 0 0 0 5px var(--navy); }
+.maker textarea { width: 100%; min-height: 84px; padding: .8em 1em; font: inherit; color: var(--ink); resize: vertical; background: #fff; border: 1.5px solid var(--navy); border-radius: 0; }
+.maker textarea:focus { outline: 0; border-color: var(--rose); }
+.small { font-size: .86em; margin-top: .7em; }
+.swatch { justify-self: center; width: 100%; max-width: 320px; text-align: center; }
+.swatch div { aspect-ratio: 1; background: center / 50% 50%; box-shadow: 0 0 0 6px var(--tile), 0 0 0 7.5px var(--blue), 0 30px 44px -24px var(--shadow); transition: transform .9s cubic-bezier(.3, 1.5, .5, 1); }
+.swatch output { display: block; margin-top: 1em; font: italic 500 1.5em/1.15 var(--display); }
+.go { display: inline-flex; align-items: center; gap: 10px; padding: .85em 1.7em; background: var(--navy); color: var(--tile); font-weight: 600; text-decoration: none; transition: transform .3s cubic-bezier(.3, 2, .5, 1), background .3s; }
+.go:hover { transform: translateY(-3px); background: var(--rose); }
+
+/* о Саше */
+.about { display: grid; grid-template-columns: minmax(200px, 360px) minmax(0, 1fr); gap: clamp(24px, 6vw, 80px); align-items: center; margin-top: clamp(24px, 4vh, 40px); }
+.about p { max-width: 33em; }
+.about p + p { margin-top: 1em; }
+.about .note-i { display: block; margin-top: .8em; font-size: 1.9em; }
+
+/* как заказать */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 3vw, 44px); margin: clamp(26px, 4vh, 44px) 0 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { counter-increment: s; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 84px; aspect-ratio: 1; background: var(--d) center / cover; box-shadow: 0 0 0 1px var(--grout); font: 600 2.4rem/1 var(--display); color: var(--navy); text-shadow: 0 0 0 var(--tile), 2px 0 var(--tile), -2px 0 var(--tile), 0 2px var(--tile), 0 -2px var(--tile), 0 0 12px var(--tile), 0 0 12px var(--tile); }
+.steps h3 { font-size: 1.6rem; margin: .6em 0 .3em; }
+.steps p { font-size: .95em; }
+
+/* отзывы */
+.blank { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(26px, 4vh, 44px); }
+.blank div { flex: 1 1 200px; max-width: 280px; aspect-ratio: 1; display: grid; place-items: center; padding: 20px; text-align: center; border: 1.5px dashed var(--blue); font: italic 500 1.3rem/1.2 var(--display); }
+
+/* подвал */
+footer { position: relative; z-index: 1; margin-top: clamp(80px, 13vh, 150px); text-align: center; padding: calc(var(--t) + clamp(60px, 9vh, 110px)) var(--gutter) 150px; background: var(--navy); color: var(--tile); }
+footer::before { content: ""; position: absolute; inset: 0 0 auto 0; height: var(--t); background: var(--wall-full) center 0 / calc(var(--t) * 3) calc(var(--t) * 2); box-shadow: 0 6px 0 var(--tile), 0 7.5px 0 var(--blue); }
+footer .knot { left: 50%; top: -9px; margin-left: -9px; }
+footer h2 { font-size: clamp(2.4rem, 6vw, 4.8rem); }
+footer p { margin: 1em auto 1.6em; max-width: 30em; }
+footer .go { background: var(--pink); color: var(--ink); }
+footer .go:hover { background: var(--tile); }
+footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
+
+.dock { position: fixed; z-index: 50; right: max(var(--gutter), env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); background: var(--rose); color: #fff; box-shadow: 0 0 0 4px var(--tile), 0 14px 26px -8px var(--shadow); }
+.dock:hover { background: var(--navy); }
+.toast { position: fixed; z-index: 95; left: 50%; bottom: 96px; translate: -50% 30px; max-width: min(92vw, 460px); padding: .9em 1.3em; background: var(--ink); color: var(--tile); font-size: .92em; opacity: 0; pointer-events: none; transition: opacity .35s, translate .35s; }
+.toast.on { opacity: 1; translate: -50% 0; }
+.stitch { position: fixed; z-index: 89; width: 28px; height: 28px; margin: -14px 0 0 -14px; pointer-events: none; animation: stitch .7s ease-out forwards; }
+.stitch::before, .stitch::after { content: ""; position: absolute; left: 50%; top: 0; width: 4px; height: 100%; margin-left: -2px; border-radius: 2px; background: var(--thread); box-shadow: 0 0 0 2px var(--tile); rotate: 45deg; }
+.stitch::after { rotate: -45deg; }
+@keyframes stitch { from { scale: .2; opacity: 1; } to { scale: 1.15; opacity: 0; } }
+
+@media (max-width: 760px) {
+  :root { --t: 110px; }
+  .menu-btn span { display: none; }
+  .menu-btn { padding: 4px; }
+  .intro { grid-template-columns: 1fr; }
+  .intro .frame { width: min(76%, 320px); }
+  .item, .item.flip { grid-template-columns: 1fr; gap: 0; }
+  .item .frame, .item.flip .frame { order: 0; width: 80%; justify-self: start; }
+  .item.flip .frame { justify-self: end; }
+  .card, .item.flip .card { width: 86%; justify-self: end; margin-top: -34px; z-index: 2; }
+  .item.flip .card { justify-self: start; }
+  .maker, .about { grid-template-columns: 1fr; }
+  .swatch { max-width: 210px; order: -1; }
+  .about .frame { width: 78%; justify-self: center; }
+  .steps { grid-template-columns: 1fr; }
+  .any { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .k-l { left: -13px; } .k-r { right: -13px; }
+  .dock { left: 50%; right: auto; translate: -50% 0; white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div id="wall" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="mark" href="#top" data-brand></a>
+  <button class="menu-btn" id="ball" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i><span>меню</span></button>
+</header>
+
+<div class="menu" id="menu">
+  <nav class="plaque" aria-label="Разделы сайта">
+    <a href="#veshi" style="--i:0">Вещи</a>
+    <a href="#vse" style="--i:1">Свяжу что угодно</a>
+    <a href="#zakaz" style="--i:2">Свой заказ</a>
+    <a href="#sasha" style="--i:3">О Саше</a>
+    <a href="#kak" style="--i:4">Как заказать</a>
+    <a href="#otzyvy" style="--i:5">Отзывы</a>
+  </nav>
+</div>
+
+<main id="top">
+  <svg id="thread" aria-hidden="true">
+    <defs><mask id="rev" maskUnits="userSpaceOnUse"><path class="rev" stroke="#fff" stroke-width="26"/></mask></defs>
+    <path class="ghost"/>
+    <g mask="url(#rev)"><path class="under"/><path class="st"/></g>
+    <g id="needle"><path d="M-36 0L6 -3.4L18 0L6 3.4Z" fill="#1F3F5E" stroke="#FBF8EF" stroke-width="2.4" stroke-linejoin="round" paint-order="stroke"/><ellipse cx="-27" cy="0" rx="4.6" ry="1.3" fill="#F3CE5F"/></g>
+  </svg>
+
+  <section class="intro">
+    <div class="plaque">
+      <i class="knot k-l" data-knot></i>
+      <h1>Сумки, серьги, игрушки и&nbsp;корзины <em>ручной работы</em></h1>
+      <p>Саша вяжет крючком и шьёт корзины из шнура. Каждую вещь можно купить готовой или заказать в своём цвете.</p>
+      <a class="pull" href="#veshi"><span class="note-i">следуйте за иглой</span><b class="note-i">↓</b></a>
+    </div>
+    <div class="frame" data-d="0"><div><img src="img/f-mishka.webp" alt="Вязаный мишка с вышитыми цветами"></div></div>
+  </section>
+
+  <div class="band" aria-hidden="true"></div>
+
+  <section class="works" id="veshi">
+    <div class="works-head plaque">
+      <i class="knot" data-knot></i>
+      <h2>Вещи</h2>
+      <div class="spools" id="spools" role="group" aria-label="Что показать"></div>
+    </div>
+    <div class="items" id="items"></div>
+  </section>
+
+  <div class="band" aria-hidden="true"></div>
+
+  <section class="panel plaque" id="vse">
+    <i class="knot k-l" data-knot></i>
+    <h2>Свяжу что угодно</h2>
+    <p>На сайте только часть вещей. Саша свяжет и то, чего здесь пока нет. Нажмите на плитку, и сообщение для Саши соберётся само.</p>
+    <div class="any" id="any"></div>
+  </section>
+
+  <section class="panel plaque" id="zakaz">
+    <i class="knot k-r" data-knot></i>
+    <h2>Свой заказ</h2>
+    <p>Выберите вещь и цвет. Саша получит ваше сообщение в Telegram и ответит по срокам и цене.</p>
+    <form class="maker" id="maker">
+      <div>
+        <fieldset>
+          <legend>что связать</legend>
+          <div class="chips" id="kinds"></div>
+        </fieldset>
+        <fieldset>
+          <legend>какого цвета</legend>
+          <div class="chips yarns" id="yarns"></div>
+          <p class="small">Цвета на экране примерные. Точный оттенок Саша подберёт по пряже, которая есть в наличии.</p>
+        </fieldset>
+        <fieldset>
+          <legend><label for="wish">пожелания</label></legend>
+          <textarea id="wish" placeholder="Размер, повод, к какому сроку нужно"></textarea>
+        </fieldset>
+        <button class="go" type="submit">Отправить Саше в Telegram</button>
+      </div>
+      <div class="swatch">
+        <div id="swatch" role="img" aria-label="Плитка выбранного цвета"></div>
+        <output id="said" for="kinds yarns"></output>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel plaque" id="sasha">
+    <i class="knot k-l" data-knot></i>
+    <h2>О Саше</h2>
+    <div class="about">
+      <div class="frame" data-d="3"><div><img src="img/f-sasha.webp" alt="Саша с оливковой вязаной сумкой" loading="lazy"></div></div>
+      <div>
+        <p>Меня зовут Саша. Я вяжу крючком сумки, украшения и игрушки, а корзины шью на швейной машинке из шнура.</p>
+        <p>Каждую вещь делаю сама, от первой петли до бирки. Поэтому двух одинаковых не бывает: даже если повторяю модель, она выходит чуть другой.</p>
+        <p>Если хотите вещь в другом цвете или размере, напишите. Обсудим и сделаю под вас.</p>
+        <span class="note-i">Саша</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel plaque" id="kak">
+    <i class="knot k-r" data-knot></i>
+    <h2>Как заказать</h2>
+    <ol class="steps">
+      <li><h3>Напишите в Telegram</h3><p>Нажмите «Хочу такую» у вещи или соберите свой заказ. Сообщение уже будет составлено.</p></li>
+      <li><h3>Обсудим детали</h3><p>Саша уточнит цвет, размер и срок, назовёт цену и расскажет про оплату и доставку.</p></li>
+      <li><h3>Получите вещь</h3><p>Готовую вещь Саша отправит вам. Заказную сначала свяжет и покажет на фото.</p></li>
+    </ol>
+  </section>
+
+  <section class="panel plaque" id="otzyvy">
+    <i class="knot k-l" data-knot></i>
+    <h2>Отзывы</h2>
+    <p>Сайт только открылся, поэтому отзывов пока нет. Купили вещь у Саши? Напишите пару слов в Telegram, и ваш отзыв появится здесь.</p>
+    <div class="blank"><div>Место для первого отзыва</div><div>Место для второго</div><div>И для третьего</div></div>
+  </section>
+</main>
+
+<footer>
+  <i class="knot" data-knot></i>
+  <h2>Нить закончилась.<br>Напишите Саше.</h2>
+  <p>Спросить про вещь, цвет или срок можно в Telegram.</p>
+  <a class="go" href="#" data-tg="Здравствуйте, Саша! Пишу с сайта, хочу спросить про ваши вещи.">Написать в Telegram</a>
+  <small data-brand-foot></small>
+</footer>
+
+<a class="go dock" href="#" data-tg="Здравствуйте, Саша! Пишу с сайта, хочу заказать вещь.">Написать Саше</a>
+<div class="toast" id="toast" role="status"></div>
+<canvas id="rope" aria-hidden="true"></canvas>
+
+<script>
+/* ===== НАСТРОЙКИ: всё, что нужно менять, лежит здесь ===== */
+const CONFIG = {
+  brand: 'Тёплая петля',        // рабочее название, поменять на настоящее
+  telegram: '',                 // ник Саши в Telegram без @, например 'sasha_knits'
+  groups: { bags: 'Сумки', jewel: 'Украшения', toys: 'Игрушки', home: 'Для дома' },
+  items: [                      // фото 3:4 в папке img; price: '' пока цена не названа, например '2 500 ₽'
+    { group: 'bags',  name: 'Сумка «Ракушки»',    img: 'f-sumka-zel.webp', price: '', text: 'Оливковая сумка с узором из ракушек. Короткие ручки, носится в руке или на локте.' },
+    { group: 'jewel', name: 'Серьги-кольца',      img: 'f-sergi.webp',     price: '', text: 'Большие кольца, обвязанные крючком. На фото оливковые.' },
+    { group: 'toys',  name: 'Мишка с вышивкой',   img: 'f-mishka.webp',    price: '', text: 'Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.' },
+    { group: 'bags',  name: 'Сумка тёмно-синяя',  img: 'f-sumka-sin.webp', price: '', text: 'Тёмно-синяя сумка рельефной вязки с короткими ручками.' },
+    { group: 'jewel', name: 'Ажурные манжеты',    img: 'f-manzheta.webp',  price: '', text: 'Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.' },
+    { group: 'home',  name: 'Корзины с крышками', img: 'f-korziny.webp',   price: '', text: 'Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.' },
+    { group: 'toys',  name: 'Грибок',             img: 'f-grib.webp',      price: '', text: 'Маленький вязаный гриб с красной шляпкой.' },
+  ],
+  // «Свяжу что угодно»: [как написано на плитке, как в сообщении]
+  any: [['Шапка', 'шапку'], ['Шарф', 'шарф'], ['Свитер', 'свитер'], ['Кардиган', 'кардиган'], ['Топ', 'топ'], ['Варежки', 'варежки'],
+        ['Носки', 'носки'], ['Плед', 'плед'], ['Сумка', 'сумку'], ['Игрушка', 'игрушку'], ['Корзина', 'корзину'], ['Своя идея', 'вещь по своей идее']],
+  kinds: ['сумку', 'серьги', 'манжеты', 'игрушку', 'корзину', 'шапку', 'шарф', 'другое'],
+  yarns: [['голубой', '#8FC1DE'], ['синий', '#4A86B4'], ['тёмно-синий', '#234B6E'], ['бирюзовый', '#7FC4BD'], ['розовый', '#F4B3C2'], ['малиновый', '#D95F7F'],
+          ['жёлтый', '#F3CE5F'], ['оливковый', '#8E9B4F'], ['молочный', '#EFE6D2'], ['бордо', '#6B2737']],
+};
+/* ========================================================= */
+const HUE = 70; // на сколько градусов цвет орнамента уходит к низу страницы
+
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const src = new URLSearchParams(location.search).get('utm_source');
+const root = document.documentElement;
+const THREAD = getComputedStyle(root).getPropertyValue('--thread').trim();
+
+$$('[data-brand]').forEach(e => e.textContent = CONFIG.brand.toLowerCase());
+$('[data-brand-foot]').textContent = CONFIG.brand + '. Вещи ручной работы.';
+document.title = CONFIG.brand;
+
+/* --- плитка: формы с четырёх- и восьмилучевой симметрией, контур вышит стежками --- */
+const K = { tile: '#FBF8EF', grout: '#E6DFCF', navy: '#234B6E', blue: '#4A86B4', aqua: '#A5D3CF', pink: '#F4B3C2', rose: '#D95F7F', sun: '#F3CE5F' };
+const shade = (hex, f) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * f).toString(16).padStart(2, '0')).join('');
+const tint = (hex, f) => '#' + [1, 3, 5].map(i => { const v = parseInt(hex.slice(i, i + 2), 16); return Math.round(v + (255 - v) * f).toString(16).padStart(2, '0'); }).join('');
+const sh = (d, fill) => `<path d="${d}" fill="${fill}"/><path d="${d}" fill="none" stroke="${fill === K.tile ? K.blue : shade(fill, .62)}" stroke-width="1.7" stroke-dasharray="4.6 3.6" stroke-linecap="round"/>`;
+const petal = (l, w, d = 0) => `M100 ${100 - d}C${100 + w} ${100 - d - l * .3} ${100 + w * .7} ${100 - d - l * .85} 100 ${100 - d - l}C${100 - w * .7} ${100 - d - l * .85} ${100 - w} ${100 - d - l * .3} 100 ${100 - d}Z`;
+const circ = (x, y, r) => `M${x - r} ${y}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
+const leaf = 'M0 0C34 4 56 26 58 58C26 56 4 34 0 0Z';
+const rot = (inner, n, off = 0) => Array.from({ length: n }, (_, i) => `<g transform="rotate(${off + i * 360 / n} 100 100)">${inner}</g>`).join('');
+const DESIGNS = [
+  p => rot(sh(circ(0, 0, 38), p.c) + sh(circ(0, 0, 17), p.b), 4) + rot(sh(petal(64, 20, 14), p.a), 8) + rot(sh(petal(30, 8, 22), p.b), 8, 22.5) + sh(circ(100, 100, 16), p.d) + sh(circ(100, 100, 6), p.e),
+  p => rot(sh(leaf, p.a), 4) + rot(sh(circ(100, 50, 36), p.b), 4) + sh('M100 44L156 100L100 156L44 100Z', p.c) + rot(sh(petal(42, 11, 5), p.n), 8) + sh(circ(100, 100, 7), K.tile),
+  p => rot(sh(circ(0, 0, 28), p.d) + sh(circ(0, 0, 11), p.n), 4) + rot(sh(petal(80, 34, 8), p.c), 4) + rot(sh(petal(54, 18, 14), p.a), 4) + rot(sh(petal(48, 10, 18), p.d), 4, 45) + sh(circ(100, 100, 12), p.b),
+  p => rot(sh(leaf, p.c), 4) + `<circle cx="100" cy="100" r="72" fill="none" stroke="${p.e}" stroke-width="3" stroke-dasharray="7 5" stroke-linecap="round"/>` + rot(sh(petal(46, 13, 18), p.b), 8) + rot(sh(petal(24, 7, 70), p.a), 8, 22.5) + sh(circ(100, 100, 11), p.n),
+  p => rot(sh(circ(0, 0, 32), p.a) + sh(circ(0, 0, 13), K.tile), 4) + sh('M100 16L184 100L100 184L16 100Z', K.tile) + `<path d="M100 26L174 100L100 174L26 100Z" fill="none" stroke="${p.b}" stroke-width="5"/>` + rot(sh(petal(58, 22, 10), p.n), 4) + rot(sh(petal(40, 12, 10), p.b), 4, 45) + sh(circ(100, 100, 10), p.d),
+  p => rot(sh(leaf, p.b), 4) + rot(sh(circ(100, 0, 17), p.c), 4) + rot(sh(petal(58, 16, 30), p.a), 8) + sh(circ(100, 100, 32), p.d) + rot(sh(petal(24, 8, 2), p.c), 8) + sh(circ(100, 100, 6), p.e),
+];
+const BASE = { a: K.blue, b: K.pink, c: K.aqua, d: K.sun, e: K.rose, n: K.navy };
+const body = (i, p = BASE) => `<rect width="200" height="200" fill="${K.tile}"/>${DESIGNS[i % DESIGNS.length](p)}<rect x=".75" y=".75" width="198.5" height="198.5" fill="none" stroke="${K.grout}" stroke-width="1.5"/>`;
+const uri = svg => `url('data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, '%27')}')`;
+const tile = (i, p) => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">${body(i, p)}</svg>`);
+const wall = fade => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">${[0, 3, 1, 4, 2, 5].map((d, k) => `<svg x="${k % 3 * 200}" y="${(k / 3 | 0) * 200}" width="200" height="200" viewBox="0 0 200 200">${body(d)}</svg>`).join('')}${fade ? `<rect width="600" height="400" fill="${K.tile}" opacity="${fade}"/>` : ''}</svg>`);
+const corner = r => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g transform="rotate(${r} 50 50)">${sh(circ(0, 0, 62), K.aqua)}${sh(circ(0, 0, 36), K.pink)}${sh(circ(0, 0, 14), K.sun)}</g></svg>`);
+const T = DESIGNS.map((_, i) => tile(i));
+root.style.setProperty('--wall', wall(.38)); root.style.setProperty('--wall-full', wall(0)); root.style.setProperty('--m0', T[0]);
+[0, 90, 180, 270].forEach((r, i) => root.style.setProperty('--c' + (i + 1), corner(r)));
+const dress = () => $$('[data-d]').forEach(e => e.style.setProperty('--d', T[+e.dataset.d % T.length]));
+$$('.band').forEach((b, j) => b.innerHTML = Array.from({ length: 18 }, (_, i) => `<i style="--d:${T[(i + j * 2) % T.length]};--n:${i}"></i>`).join(''));
+$$('.steps li').forEach((li, i) => li.style.setProperty('--d', T[[2, 4, 5][i]]));
+
+/* --- Telegram --- */
+function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 4200); }
+function tg(text) {
+  if (src) text += ' (пришла из ' + src + ')';
+  if (!CONFIG.telegram) return toast('Это тестовая версия сайта: ник Саши в Telegram ещё не добавлен. Сообщение было бы таким: «' + text + '»');
+  window.open('https://t.me/' + CONFIG.telegram + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+}
+document.addEventListener('click', e => { const a = e.target.closest('[data-tg]'); if (a) { e.preventDefault(); tg(a.dataset.tg); } });
+
+/* --- вещи и фильтры --- */
+const itemsEl = $('#items'), spools = $('#spools');
+itemsEl.innerHTML = CONFIG.items.map((it, i) => `
+  <article class="item" data-group="${it.group}">
+    <div class="frame" data-d="${i + 1}"><div><img src="img/${it.img}" alt="${it.name}" loading="lazy"></div></div>
+    <div class="card plaque"><i class="knot" data-knot></i>
+      <span class="note-i">${CONFIG.groups[it.group].toLowerCase()}</span>
+      <h3>${it.name}</h3>
+      <p>${it.text}</p>
+      <p class="cost">${it.price || 'Цену подскажет Саша'}. Можно повторить в вашем цвете.</p>
+      <button class="want" data-tg="Здравствуйте, Саша! Хочу такую вещь: ${it.name}.">Хочу такую <span aria-hidden="true">→</span></button>
+    </div>
+  </article>`).join('');
+dress();
+$$('img').forEach(i => i.addEventListener('load', () => build()));
+spools.innerHTML = [['all', 'Всё'], ...Object.entries(CONFIG.groups)].map(([k, v], i) => `<button class="spool" data-g="${k}" aria-pressed="${!i}">${v}</button>`).join('');
+function show(g) {
+  let n = 0;
+  $$('.item', itemsEl).forEach(el => { el.hidden = g !== 'all' && el.dataset.group !== g; if (!el.hidden) el.classList.toggle('flip', n++ % 2 === 1); });
+  $$('.spool', spools).forEach(b => b.setAttribute('aria-pressed', b.dataset.g === g));
+  build();
+}
+spools.addEventListener('click', e => { const b = e.target.closest('.spool'); if (b) show(b.dataset.g); });
+
+/* --- свяжу что угодно --- */
+$('#any').innerHTML = CONFIG.any.map(([a, b], i) => `<button data-tg="Здравствуйте, Саша! Хочу заказать ${b}."><span class="f" style="--d:${T[i % T.length]}"><b>${a}</b></span><span class="b">Заказать<br>${b} →</span></button>`).join('');
+
+/* --- появление полос плитки --- */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .3 });
+$$('.band').forEach(b => io.observe(b));
+
+/* --- игла с ниткой прошивает страницу --- */
+const main = $('main'), svg = $('#thread'), paths = $$('path.ghost, path.under, path.st, path.rev', svg), rev = $('.rev', svg), mask = $('#rev'), needle = $('#needle');
+let knots = [], total = 0, table = [], shown = 0, want = 0;
+const wallEl = $('#wall');
+function paintWall(H) {
+  const t = ($('.band i') || {}).offsetWidth || 150, seg = t * 2, n = Math.ceil(H / seg);
+  wallEl.style.height = H + 'px';
+  if (wallEl.children.length !== n || wallEl.dataset.t != t) {
+    wallEl.dataset.t = t;
+    wallEl.innerHTML = Array.from({ length: n }, (_, i) => `<i style="height:${seg}px;filter:hue-rotate(${Math.round(i / Math.max(1, n - 1) * HUE)}deg)"></i>`).join('');
+  }
+}
+function build() {
+  const box = root.getBoundingClientRect(), m = main.getBoundingClientRect(), H = root.scrollHeight - (m.top - box.top);
+  svg.style.height = H + 'px'; paintWall(root.scrollHeight);
+  mask.setAttribute('x', -100); mask.setAttribute('y', -100); mask.setAttribute('width', m.width + 200); mask.setAttribute('height', H + 200);
+  const pts = $$('[data-knot]').filter(k => k.offsetParent).map(k => { const r = k.getBoundingClientRect(); return { el: k, x: r.left + r.width / 2 - m.left, y: r.top + r.height / 2 - m.top }; });
+  if (!pts.length) return;
+  let d = `M${pts[0].x - 60} -40 C${pts[0].x - 60} ${pts[0].y * .5} ${pts[0].x} ${pts[0].y * .5} ${pts[0].x} ${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i], h = (b.y - a.y) * .55; d += ` C${a.x} ${a.y + h} ${b.x} ${b.y - h} ${b.x} ${b.y}`; }
+  paths.forEach(p => p.setAttribute('d', d));
+  total = rev.getTotalLength(); table = [];
+  const N = Math.max(200, Math.round(total / 12));
+  for (let i = 0; i <= N; i++) { const l = total * i / N; table.push([rev.getPointAtLength(l).y, l]); }
+  knots = pts.map(p => ({ ...p, len: lenAt(p.y) }));
+  rev.style.strokeDasharray = total;
+  aim(); if (calm) shown = want; paint();
+}
+function lenAt(y) {
+  let lo = 0, hi = table.length - 1;
+  if (y <= table[0][0]) return 0; if (y >= table[hi][0]) return total;
+  while (hi - lo > 1) { const mid = (lo + hi) >> 1; table[mid][0] < y ? lo = mid : hi = mid; }
+  const [y0, l0] = table[lo], [y1, l1] = table[hi];
+  return l0 + (l1 - l0) * (y - y0) / (y1 - y0 || 1);
+}
+function aim() {
+  const end = innerHeight + scrollY >= root.scrollHeight - 4;
+  want = end ? total : lenAt(-main.getBoundingClientRect().top + innerHeight * .62);
+}
+function paint() {
+  rev.style.strokeDashoffset = total - shown;
+  const p = rev.getPointAtLength(shown), q = rev.getPointAtLength(Math.max(0, shown - 6));
+  const ang = Math.atan2(p.y - q.y, p.x - q.x) * 180 / Math.PI;
+  needle.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${shown > 6 ? ang : 90}) scale(2.1) translate(27 0)`);
+  needle.style.opacity = shown >= total - 2 ? 0 : 1;
+  knots.forEach(k => {
+    const on = shown >= k.len - 2;
+    if (on !== k.el.classList.contains('tied')) {
+      k.el.classList.toggle('tied', on);
+      const w = k.el.closest('.card');
+      if (w && on) { w.classList.remove('swing'); void w.offsetWidth; w.classList.add('swing'); }
+    }
+  });
+}
+function tick() { if (Math.abs(want - shown) > .5) { shown += (want - shown) * (calm ? 1 : .12); paint(); } requestAnimationFrame(tick); }
+addEventListener('scroll', aim, { passive: true });
+new ResizeObserver(() => build()).observe(document.body);
+addEventListener('load', build);
+document.fonts && document.fonts.ready.then(build);
+
+/* --- меню --- */
+const ball = $('#ball');
+function menu(open) { root.classList.toggle('menu-open', open); ball.setAttribute('aria-expanded', open); }
+ball.addEventListener('click', () => menu(!root.classList.contains('menu-open')));
+$('#menu').addEventListener('click', e => { if (e.target.closest('a')) menu(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape') menu(false); });
+
+/* --- свой заказ: плитка перекрашивается в цвет пряжи --- */
+const kinds = $('#kinds'), yarns = $('#yarns'), sw = $('#swatch'), said = $('#said');
+let spin = 0;
+kinds.innerHTML = CONFIG.kinds.map((k, i) => `<label><input type="radio" name="kind" id="kind${i}" value="${k}" ${i ? '' : 'checked'}><span>${k}</span></label>`).join('');
+yarns.innerHTML = CONFIG.yarns.map(([n, c], i) => `<label title="${n}"><input type="radio" name="yarn" id="yarn${i}" value="${n}" data-c="${c}" ${i === 4 ? 'checked' : ''}><span style="--c:${c}"><span hidden>${n}</span></span></label>`).join('');
+function knit(turn) {
+  const y = $('input[name=yarn]:checked'), k = $('input[name=kind]:checked'), c = y.dataset.c;
+  sw.style.backgroundImage = tile(CONFIG.kinds.indexOf(k.value), { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
+  if (turn) sw.style.transform = `rotate(${(spin += 90)}deg)`;
+  said.textContent = k.value === 'другое' ? `другая вещь, цвет ${y.value}` : `${k.value}, цвет ${y.value}`;
+}
+$('#maker').addEventListener('change', () => knit(true));
+$('#maker').addEventListener('submit', e => {
+  e.preventDefault();
+  const k = $('input[name=kind]:checked').value, y = $('input[name=yarn]:checked').value, w = $('#wish').value.trim();
+  tg(`Здравствуйте, Саша! Хочу заказать ${k === 'другое' ? 'вещь' : k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
+});
+
+/* --- курсор: игла с ниткой (мышь); стежок (касание) --- */
+if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
+  const cv = $('#rope'), cx = cv.getContext('2d'), N = 18, SEG = 7, L = 34;
+  let W, H, mx = -99, my = -99, ang = -2.3, big = 0, bigTo = 0, seen = false;
+  const P = Array.from({ length: N }, () => ({ x: 0, y: 0, px: 0, py: 0 }));
+  const fit = () => { const r = devicePixelRatio || 1; W = cv.width = innerWidth * r; H = cv.height = innerHeight * r; cx.setTransform(r, 0, 0, r, 0, 0); };
+  fit(); addEventListener('resize', fit);
+  addEventListener('mousemove', e => {
+    const dx = e.clientX - mx, dy = e.clientY - my;
+    if (seen && Math.hypot(dx, dy) > 2) { let t = Math.atan2(dy, dx), d = t - ang; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; ang += d * .18; }
+    mx = e.clientX; my = e.clientY;
+    if (!seen) { seen = true; P.forEach(p => { p.x = p.px = mx; p.y = p.py = my; }); root.classList.add('rope'); }
+    bigTo = e.target.closest('a, button, label, textarea') ? 1 : 0;
+  });
+  document.addEventListener('mouseleave', () => { seen = false; root.classList.remove('rope'); });
+  (function loop() {
+    cx.clearRect(0, 0, W, H);
+    if (seen) {
+      big += (bigTo - big) * .18;
+      const s = 1 + big * .35, ex = mx - Math.cos(ang) * L * s * .82, ey = my - Math.sin(ang) * L * s * .82;
+      P[0].x = ex; P[0].y = ey;
+      for (let i = 1; i < N; i++) { const p = P[i], vx = (p.x - p.px) * .9, vy = (p.y - p.py) * .9; p.px = p.x; p.py = p.y; p.x += vx; p.y += vy + .35; }
+      for (let k = 0; k < 4; k++) for (let i = 1; i < N; i++) {
+        const a = P[i - 1], b = P[i], dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || 1, f = (d - SEG) / d;
+        if (i === 1) { b.x -= dx * f; b.y -= dy * f; } else { a.x += dx * f * .5; a.y += dy * f * .5; b.x -= dx * f * .5; b.y -= dy * f * .5; }
+      }
+      cx.lineCap = cx.lineJoin = 'round';
+      cx.beginPath(); cx.moveTo(P[0].x, P[0].y);
+      for (let i = 1; i < N - 1; i++) cx.quadraticCurveTo(P[i].x, P[i].y, (P[i].x + P[i + 1].x) / 2, (P[i].y + P[i + 1].y) / 2);
+      cx.strokeStyle = K.tile; cx.lineWidth = 7; cx.stroke(); cx.strokeStyle = THREAD; cx.lineWidth = 3; cx.stroke();
+      cx.save(); cx.translate(mx, my); cx.rotate(ang); cx.scale(s, s);
+      cx.beginPath(); cx.moveTo(0, 0); cx.lineTo(-9, -2.6); cx.lineTo(-L, -1.2); cx.lineTo(-L, 1.2); cx.lineTo(-9, 2.6); cx.closePath();
+      cx.strokeStyle = K.tile; cx.lineWidth = 3.5; cx.stroke(); cx.fillStyle = '#1F3F5E'; cx.fill();
+      cx.beginPath(); cx.ellipse(-L * .82, 0, 4, 1.1, 0, 0, 7); cx.fillStyle = K.sun; cx.fill();
+      cx.restore();
+      if (big > .05) { cx.beginPath(); cx.arc(mx, my, 16 * big, 0, 7); cx.strokeStyle = THREAD; cx.lineWidth = 2; cx.setLineDash([4, 4]); cx.stroke(); cx.setLineDash([]); }
+    }
+    requestAnimationFrame(loop);
+  })();
+} else if (!calm) {
+  addEventListener('touchstart', e => {
+    const t = e.touches[0], s = document.createElement('i');
+    s.className = 'stitch'; s.style.left = t.clientX + 'px'; s.style.top = t.clientY + 'px';
+    document.body.append(s); setTimeout(() => s.remove(), 700);
+  }, { passive: true });
+}
+
+show('all'); knit(false); tick();
+</script>
+</body>
+</html>
