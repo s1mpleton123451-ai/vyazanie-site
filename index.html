@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Тёплая петля</title>
-<meta name="description" content="Сумки, серьги, игрушки и корзины ручной работы. Готовые вещи и заказ в своём цвете.">
+<meta name="description" content="Вязаные вещи и изделия из шнура ручной работы Александры. Готовые работы и заказ в своём цвете.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600&display=swap">
@@ -46,8 +46,11 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 3.8rem); }
 p { margin: 0; }
 .note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose); }
 
-html.rope, html.rope * { cursor: none !important; }
 #rope { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
+a, button, label { cursor: pointer; }
+@media (hover: hover) and (pointer: fine) {
+  html.rope, html.rope * { cursor: none !important; }
+}
 
 /* белая табличка на стене: гладкая плитка с тонкой синей линией и угловыми розетками */
 .plaque {
@@ -138,7 +141,7 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .card h3 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); margin: .1em 0 .35em; }
 .card p { font-size: .95em; }
 .card .cost { margin-top: .9em; font-weight: 600; }
-.want { display: inline-flex; gap: 8px; margin-top: 1.1em; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); transition: background .25s, gap .25s; }
+.want { display: inline-flex; gap: 8px; margin-top: 1.1em; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); text-decoration: none; transition: background .25s, gap .25s; }
 .want:hover { background: var(--rose); gap: 14px; }
 
 /* разделы-таблички */
@@ -147,13 +150,13 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 
 /* свяжу что угодно: плитки переворачиваются */
 .any { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: clamp(8px, 1.2vw, 14px); margin-top: clamp(24px, 4vh, 44px); }
-.any button { position: relative; aspect-ratio: 1; perspective: 700px; }
+.any a { position: relative; display: block; aspect-ratio: 1; perspective: 700px; text-decoration: none; }
 .any span { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; transition: transform .8s cubic-bezier(.3, 1.3, .5, 1); box-shadow: 0 0 0 1px var(--grout); }
 .any .f { background: var(--d) center / cover; }
 .any .f b { font: 600 1.25rem/1 var(--display); padding: .3em .7em; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 4px var(--tile); }
 .any .b { background: var(--navy); color: var(--tile); transform: rotateY(180deg); font: italic 500 1.35rem/1.15 var(--display); padding: 10px; text-align: center; }
-.any button:hover .f, .any button:focus-visible .f { transform: rotateY(-180deg); }
-.any button:hover .b, .any button:focus-visible .b { transform: rotateY(0); }
+.any a:hover .f, .any a:focus-visible .f { transform: rotateY(-180deg); }
+.any a:hover .b, .any a:focus-visible .b { transform: rotateY(0); }
 
 /* свой заказ */
 .maker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); gap: clamp(24px, 5vw, 70px); align-items: center; margin-top: clamp(26px, 4vh, 44px); }
@@ -176,7 +179,7 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .go { display: inline-flex; align-items: center; gap: 10px; padding: .85em 1.7em; background: var(--navy); color: var(--tile); font-weight: 600; text-decoration: none; transition: transform .3s cubic-bezier(.3, 2, .5, 1), background .3s; }
 .go:hover { transform: translateY(-3px); background: var(--rose); }
 
-/* о Саше */
+/* об Александре */
 .about { display: grid; grid-template-columns: minmax(200px, 360px) minmax(0, 1fr); gap: clamp(24px, 6vw, 80px); align-items: center; margin-top: clamp(24px, 4vh, 40px); }
 .about p { max-width: 33em; }
 .about p + p { margin-top: 1em; }
@@ -250,7 +253,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
     <a href="#veshi" style="--i:0">Вещи</a>
     <a href="#vse" style="--i:1">Свяжу что угодно</a>
     <a href="#zakaz" style="--i:2">Свой заказ</a>
-    <a href="#sasha" style="--i:3">О Саше</a>
+    <a href="#sasha" style="--i:3">Об Александре</a>
     <a href="#kak" style="--i:4">Как заказать</a>
     <a href="#otzyvy" style="--i:5">Отзывы</a>
   </nav>
@@ -267,11 +270,11 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <section class="intro">
     <div class="plaque">
       <i class="knot k-l" data-knot></i>
-      <h1>Сумки, серьги, игрушки и&nbsp;корзины <em>ручной работы</em></h1>
-      <p>Саша вяжет крючком и шьёт корзины из шнура. Каждую вещь можно купить готовой или заказать в своём цвете.</p>
+      <h1>Вязаные вещи и изделия из&nbsp;шнура <em>ручной работы</em></h1>
+      <p>Александра вяжет крючком и шьёт из шнура на машинке. Каждую вещь можно купить готовой или заказать в своём цвете.</p>
       <a class="pull" href="#veshi"><span class="note-i">следуйте за иглой</span><b class="note-i">↓</b></a>
     </div>
-    <div class="frame" data-d="0"><div><img src="img/f-mishka.webp" alt="Вязаный мишка с вышитыми цветами"></div></div>
+    <div class="frame" data-d="0"><div><img src="img/catalog-bear.jpg" alt="Вязаный мишка с вышитыми цветами"></div></div>
   </section>
 
   <div class="band" aria-hidden="true"></div>
@@ -289,31 +292,31 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 
   <section class="panel plaque" id="vse">
     <i class="knot k-l" data-knot></i>
-    <h2>Свяжу что угодно</h2>
-    <p>На сайте только часть вещей. Саша свяжет и то, чего здесь пока нет. Нажмите на плитку, и сообщение для Саши соберётся само.</p>
+    <h2>Сделаю на заказ</h2>
+    <p>На сайте только часть работ. Александра свяжет или сошьёт из шнура то, чего здесь пока нет. Нажмите на плитку, и сообщение соберётся само.</p>
     <div class="any" id="any"></div>
   </section>
 
   <section class="panel plaque" id="zakaz">
     <i class="knot k-r" data-knot></i>
     <h2>Свой заказ</h2>
-    <p>Выберите вещь и цвет. Саша получит ваше сообщение в Telegram и ответит по срокам и цене.</p>
+    <p>Выберите вещь и цвет. Александра получит ваше сообщение в Telegram и ответит по срокам и цене.</p>
     <form class="maker" id="maker">
       <div>
         <fieldset>
-          <legend>что связать</legend>
+          <legend>что заказать</legend>
           <div class="chips" id="kinds"></div>
         </fieldset>
         <fieldset>
           <legend>какого цвета</legend>
           <div class="chips yarns" id="yarns"></div>
-          <p class="small">Цвета на экране примерные. Точный оттенок Саша подберёт по пряже, которая есть в наличии.</p>
+          <p class="small">Цвета на экране примерные. Точный оттенок Александра подберёт по пряже, которая есть в наличии.</p>
         </fieldset>
         <fieldset>
           <legend><label for="wish">пожелания</label></legend>
           <textarea id="wish" placeholder="Размер, повод, к какому сроку нужно"></textarea>
         </fieldset>
-        <button class="go" type="submit">Отправить Саше в Telegram</button>
+        <button class="go" type="submit">Отправить Александре в Telegram</button>
       </div>
       <div class="swatch">
         <div id="swatch" role="img" aria-label="Плитка выбранного цвета"></div>
@@ -324,14 +327,14 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 
   <section class="panel plaque" id="sasha">
     <i class="knot k-l" data-knot></i>
-    <h2>О Саше</h2>
+    <h2>Об Александре</h2>
     <div class="about">
-      <div class="frame" data-d="3"><div><img src="img/f-sasha.webp" alt="Саша с оливковой вязаной сумкой" loading="lazy"></div></div>
+      <div class="frame" data-d="3"><div><img src="img/alexandra.jpg" alt="Александра, автор изделий ручной работы" loading="lazy"></div></div>
       <div>
-        <p>Меня зовут Саша. Я вяжу крючком сумки, украшения и игрушки, а корзины шью на швейной машинке из шнура.</p>
+        <p>Меня зовут Александра. Я вяжу крючком сумки, украшения и игрушки, а корзины и чехлы для телефона шью на швейной машинке из шнура.</p>
         <p>Каждую вещь делаю сама, от первой петли до бирки. Поэтому двух одинаковых не бывает: даже если повторяю модель, она выходит чуть другой.</p>
         <p>Если хотите вещь в другом цвете или размере, напишите. Обсудим и сделаю под вас.</p>
-        <span class="note-i">Саша</span>
+        <span class="note-i">Александра</span>
       </div>
     </div>
   </section>
@@ -341,28 +344,28 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
     <h2>Как заказать</h2>
     <ol class="steps">
       <li><h3>Напишите в Telegram</h3><p>Нажмите «Хочу такую» у вещи или соберите свой заказ. Сообщение уже будет составлено.</p></li>
-      <li><h3>Обсудим детали</h3><p>Саша уточнит цвет, размер и срок, назовёт цену и расскажет про оплату и доставку.</p></li>
-      <li><h3>Получите вещь</h3><p>Готовую вещь Саша отправит вам. Заказную сначала свяжет и покажет на фото.</p></li>
+      <li><h3>Обсудим детали</h3><p>Александра уточнит цвет, размер и срок, назовёт цену и расскажет про оплату и доставку.</p></li>
+      <li><h3>Получите вещь</h3><p>Готовую вещь Александра отправит вам. Заказную сначала сделает и покажет на фото.</p></li>
     </ol>
   </section>
 
   <section class="panel plaque" id="otzyvy">
     <i class="knot k-l" data-knot></i>
     <h2>Отзывы</h2>
-    <p>Сайт только открылся, поэтому отзывов пока нет. Купили вещь у Саши? Напишите пару слов в Telegram, и ваш отзыв появится здесь.</p>
+    <p>Сайт только открылся, поэтому отзывов пока нет. Купили вещь у Александры? Напишите пару слов в Telegram, и ваш отзыв появится здесь.</p>
     <div class="blank"><div>Место для первого отзыва</div><div>Место для второго</div><div>И для третьего</div></div>
   </section>
 </main>
 
 <footer>
   <i class="knot" data-knot></i>
-  <h2>Нить закончилась.<br>Напишите Саше.</h2>
+  <h2>Нить закончилась.<br>Напишите Александре.</h2>
   <p>Спросить про вещь, цвет или срок можно в Telegram.</p>
-  <a class="go" href="#" data-tg="Здравствуйте, Саша! Пишу с сайта, хочу спросить про ваши вещи.">Написать в Telegram</a>
+  <a class="go" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу спросить про ваши работы.">Написать в Telegram</a>
   <small data-brand-foot></small>
 </footer>
 
-<a class="go dock" href="#" data-tg="Здравствуйте, Саша! Пишу с сайта, хочу заказать вещь.">Написать Саше</a>
+<a class="go dock" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу заказать вещь.">Написать Александре</a>
 <div class="toast" id="toast" role="status"></div>
 <canvas id="rope" aria-hidden="true"></canvas>
 
@@ -370,21 +373,30 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 /* ===== НАСТРОЙКИ: всё, что нужно менять, лежит здесь ===== */
 const CONFIG = {
   brand: 'Тёплая петля',        // рабочее название, поменять на настоящее
-  telegram: '',                 // ник Саши в Telegram без @, например 'sasha_knits'
-  groups: { bags: 'Сумки', jewel: 'Украшения', toys: 'Игрушки', home: 'Для дома' },
+  telegram: 'ssshhinneee',      // ник Александры в Telegram без @
+  groups: { knit: 'Связано крючком', sewn: 'Сшито из шнура' },
   items: [                      // фото 3:4 в папке img; price: '' пока цена не названа, например '2 500 ₽'
-    { group: 'bags',  name: 'Сумка «Ракушки»',    img: 'f-sumka-zel.webp', price: '', text: 'Оливковая сумка с узором из ракушек. Короткие ручки, носится в руке или на локте.' },
-    { group: 'jewel', name: 'Серьги-кольца',      img: 'f-sergi.webp',     price: '', text: 'Большие кольца, обвязанные крючком. На фото оливковые.' },
-    { group: 'toys',  name: 'Мишка с вышивкой',   img: 'f-mishka.webp',    price: '', text: 'Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.' },
-    { group: 'bags',  name: 'Сумка тёмно-синяя',  img: 'f-sumka-sin.webp', price: '', text: 'Тёмно-синяя сумка рельефной вязки с короткими ручками.' },
-    { group: 'jewel', name: 'Ажурные манжеты',    img: 'f-manzheta.webp',  price: '', text: 'Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.' },
-    { group: 'home',  name: 'Корзины с крышками', img: 'f-korziny.webp',   price: '', text: 'Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.' },
-    { group: 'toys',  name: 'Грибок',             img: 'f-grib.webp',      price: '', text: 'Маленький вязаный гриб с красной шляпкой.' },
+    { group: 'knit',  name: 'Сумка «Ракушки»',       img: 'catalog-bag-shell.jpg',       price: '', text: 'Оливковая сумка с объёмным узором из ракушек. Короткие ручки, носится в руке или на локте.' },
+    { group: 'knit',  name: 'Серьги-кольца',         img: 'catalog-earrings.jpg',        price: '', text: 'Большие лёгкие кольца, обвязанные крючком оливковой нитью.' },
+    { group: 'knit',  name: 'Мишка с вышивкой',      img: 'catalog-bear.jpg',            price: '', text: 'Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.' },
+    { group: 'knit',  name: 'Сумка тёмно-синяя',     img: 'catalog-bag-navy.jpg',        price: '', text: 'Тёмно-синяя сумка рельефной вязки с короткими ручками.' },
+    { group: 'knit',  name: 'Ажурные манжеты',       img: 'catalog-cuffs.jpg',           price: '', text: 'Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.' },
+    { group: 'knit',  name: 'Брелок-грибочек',       img: 'catalog-mushroom.jpg',        price: '', text: 'Маленький вязаный брелок в форме грибочка с красной шляпкой.' },
+    { group: 'knit',  name: 'Ажурный воротник',      img: 'catalog-collar.jpg',          price: '', text: 'Съёмный воротник молочного цвета с завязками. Преображает платье, свитер или кардиган.' },
+    { group: 'knit',  name: 'Пасхальный зайчик',     img: 'catalog-egg-bunny.jpg',       price: '', text: 'Миниатюрная подставка-зайчик для декоративного или пасхального яйца.' },
+    { group: 'knit',  name: 'Набор джутовых ковриков', img: 'catalog-rugs.jpg',          price: '', text: 'Круглые коврики из натурального джута с ажурным краем, несколько размеров.' },
+    { group: 'knit',  name: 'Лягушонок',             img: 'catalog-frog.jpg',            price: '', text: 'Зелёный вязаный лягушонок в крошечных кедах.' },
+    { group: 'knit',  name: 'Пушистая сумка',        img: 'catalog-fluffy-bag.jpg',      price: '', text: 'Мягкая серая сумка из фактурной пушистой пряжи с длинным ремешком.' },
+    { group: 'sewn',  name: 'Корзины с крышками',    img: 'catalog-baskets-lids.jpg',    price: '', text: 'Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.' },
+    { group: 'sewn',  name: 'Голубая корзина',       img: 'catalog-basket-blue.jpg',     price: '', text: 'Вместительная голубая корзина из шнура с синими и белыми помпонами.' },
+    { group: 'sewn',  name: 'Корзина с цветами',     img: 'catalog-basket-flowers.jpg',  price: '', text: 'Большая бежевая корзина из шнура с ручками и объёмными цветами.' },
+    { group: 'sewn',  name: 'Корзина для пряжи',     img: 'catalog-basket-yellow.jpg',   price: '', text: 'Высокая трёхцветная корзина с ручками для пряжи, пледов или игрушек.' },
+    { group: 'sewn',  name: 'Сумка для телефона',    img: 'catalog-phone-bag.jpg',       price: '', text: 'Компактная сумка из шнура с карманом и длинным ремешком. Можно выбрать цвет.' },
   ],
   // «Свяжу что угодно»: [как написано на плитке, как в сообщении]
   any: [['Шапка', 'шапку'], ['Шарф', 'шарф'], ['Свитер', 'свитер'], ['Кардиган', 'кардиган'], ['Топ', 'топ'], ['Варежки', 'варежки'],
         ['Носки', 'носки'], ['Плед', 'плед'], ['Сумка', 'сумку'], ['Игрушка', 'игрушку'], ['Корзина', 'корзину'], ['Своя идея', 'вещь по своей идее']],
-  kinds: ['сумку', 'серьги', 'манжеты', 'игрушку', 'корзину', 'шапку', 'шарф', 'другое'],
+  kinds: ['сумку', 'серьги', 'манжеты', 'воротник', 'игрушку', 'корзину', 'чехол для телефона', 'шапку', 'шарф', 'другое'],
   yarns: [['голубой', '#8FC1DE'], ['синий', '#4A86B4'], ['тёмно-синий', '#234B6E'], ['бирюзовый', '#7FC4BD'], ['розовый', '#F4B3C2'], ['малиновый', '#D95F7F'],
           ['жёлтый', '#F3CE5F'], ['оливковый', '#8E9B4F'], ['молочный', '#EFE6D2'], ['бордо', '#6B2737']],
 };
@@ -431,14 +443,11 @@ const dress = () => $$('[data-d]').forEach(e => e.style.setProperty('--d', T[+e.
 $$('.band').forEach((b, j) => b.innerHTML = Array.from({ length: 18 }, (_, i) => `<i style="--d:${T[(i + j * 2) % T.length]};--n:${i}"></i>`).join(''));
 $$('.steps li').forEach((li, i) => li.style.setProperty('--d', T[[2, 4, 5][i]]));
 
-/* --- Telegram --- */
-function toast(t) { const e = $('#toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 4200); }
-function tg(text) {
+/* --- Telegram: прямые ссылки работают и на десктопе, и на телефоне --- */
+function telegramUrl(text) {
   if (src) text += ' (пришла из ' + src + ')';
-  if (!CONFIG.telegram) return toast('Это тестовая версия сайта: ник Саши в Telegram ещё не добавлен. Сообщение было бы таким: «' + text + '»');
-  window.open('https://t.me/' + CONFIG.telegram + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  return 'https://t.me/' + CONFIG.telegram + '?text=' + encodeURIComponent(text);
 }
-document.addEventListener('click', e => { const a = e.target.closest('[data-tg]'); if (a) { e.preventDefault(); tg(a.dataset.tg); } });
 
 /* --- вещи и фильтры --- */
 const itemsEl = $('#items'), spools = $('#spools');
@@ -449,8 +458,8 @@ itemsEl.innerHTML = CONFIG.items.map((it, i) => `
       <span class="note-i">${CONFIG.groups[it.group].toLowerCase()}</span>
       <h3>${it.name}</h3>
       <p>${it.text}</p>
-      <p class="cost">${it.price || 'Цену подскажет Саша'}. Можно повторить в вашем цвете.</p>
-      <button class="want" data-tg="Здравствуйте, Саша! Хочу такую вещь: ${it.name}.">Хочу такую <span aria-hidden="true">→</span></button>
+      <p class="cost">${it.price || 'Цену подскажет Александра'}. Можно повторить в вашем цвете.</p>
+      <a class="want" href="${telegramUrl(`Здравствуйте, Александра! Хочу такую вещь: ${it.name}.`)}" target="_blank" rel="noopener">Хочу такую <span aria-hidden="true">→</span></a>
     </div>
   </article>`).join('');
 dress();
@@ -465,7 +474,8 @@ function show(g) {
 spools.addEventListener('click', e => { const b = e.target.closest('.spool'); if (b) show(b.dataset.g); });
 
 /* --- свяжу что угодно --- */
-$('#any').innerHTML = CONFIG.any.map(([a, b], i) => `<button data-tg="Здравствуйте, Саша! Хочу заказать ${b}."><span class="f" style="--d:${T[i % T.length]}"><b>${a}</b></span><span class="b">Заказать<br>${b} →</span></button>`).join('');
+$('#any').innerHTML = CONFIG.any.map(([a, b], i) => `<a href="${telegramUrl(`Здравствуйте, Александра! Хочу заказать ${b}.`)}" target="_blank" rel="noopener"><span class="f" style="--d:${T[i % T.length]}"><b>${a}</b></span><span class="b">Заказать<br>${b} →</span></a>`).join('');
+$$('[data-tg]').forEach(a => { a.href = telegramUrl(a.dataset.tg); a.target = '_blank'; a.rel = 'noopener'; });
 
 /* --- появление полос плитки --- */
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .3 });
@@ -553,7 +563,7 @@ $('#maker').addEventListener('change', () => knit(true));
 $('#maker').addEventListener('submit', e => {
   e.preventDefault();
   const k = $('input[name=kind]:checked').value, y = $('input[name=yarn]:checked').value, w = $('#wish').value.trim();
-  tg(`Здравствуйте, Саша! Хочу заказать ${k === 'другое' ? 'вещь' : k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
+  location.href = telegramUrl(`Здравствуйте, Александра! Хочу заказать ${k === 'другое' ? 'вещь' : k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
 });
 
 /* --- курсор: игла с ниткой (мышь); стежок (касание) --- */
