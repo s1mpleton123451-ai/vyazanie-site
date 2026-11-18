@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Тёплая петля</title>
 <meta name="description" content="Вязаные вещи и изделия из шнура ручной работы Александры. Готовые работы и заказ в своём цвете.">
+<meta name="theme-color" content="#FBF8EF">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Тёплая петля">
+<meta property="og:description" content="Вязаные вещи и изделия из шнура ручной работы Александры. Готовые работы и заказ в своём цвете.">
+<meta property="og:image" content="https://s1mpleton123451-ai.github.io/vyazanie-site/img/catalog-bear.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FBF8EF'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23A3154B' stroke-width='6' stroke-dasharray='9 5'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%234A86B4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600&display=swap">
@@ -19,6 +25,7 @@
   --aqua: #A5D3CF;
   --pink: #F4B3C2;
   --rose: #D95F7F;
+  --rose-text: #B8365C; /* тот же розовый, но темнее: читается на кремовом фоне */
   --sun: #F3CE5F;
   --thread: #A3154B;
   --shadow: rgba(31, 63, 94, .34);
@@ -44,13 +51,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.04; margin: 0; text-wrap: balance; letter-spacing: -.005em; }
 h2 { font-size: clamp(2.2rem, 4.8vw, 3.8rem); }
 p { margin: 0; }
-.note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose); }
+.note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose-text); }
 
 #rope { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
 a, button, label { cursor: pointer; }
-@media (hover: hover) and (pointer: fine) {
-  html.rope, html.rope * { cursor: none !important; }
-}
+/* Игла с ниткой заменяет курсор только после первого движения мыши; без движения и на касаниях остаётся обычный. */
+@media (hover: hover) and (pointer: fine) { html.rope, html.rope * { cursor: none !important; } }
 
 /* белая табличка на стене: гладкая плитка с тонкой синей линией и угловыми розетками */
 .plaque {
@@ -74,6 +80,7 @@ a, button, label { cursor: pointer; }
   clip-path: circle(0 at calc(100% - var(--gutter) - 30px) 38px); visibility: hidden;
   transition: clip-path .8s cubic-bezier(.7, 0, .2, 1), visibility 0s .8s;
 }
+.menu-open body { overflow: hidden; }
 .menu-open .menu { clip-path: circle(150vmax at calc(100% - var(--gutter) - 30px) 38px); visibility: visible; transition-delay: 0s; }
 .menu nav { display: grid; gap: clamp(4px, 1.4vh, 14px); padding: clamp(34px, 6vw, 70px) clamp(38px, 8vw, 110px); text-align: center; }
 .menu a { font: 600 clamp(1.9rem, 5.4vw, 3.4rem)/1.15 var(--display); text-decoration: none; transform: translateY(16px); opacity: 0; transition: transform .6s, opacity .6s, color .2s; }
@@ -88,6 +95,7 @@ main { position: relative; padding-inline: var(--gutter); }
 #thread .under { stroke: var(--tile); stroke-width: 15; filter: drop-shadow(0 2px 3px rgba(31, 63, 94, .35)); }
 #thread .st { stroke: var(--thread); stroke-width: 5; stroke-dasharray: 16 10; }
 #needle { filter: drop-shadow(0 3px 4px rgba(31, 63, 94, .5)); }
+section[id] { scroll-margin-top: 84px; }
 section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto; }
 .knot { position: absolute; width: 18px; height: 18px; border-radius: 50%; z-index: 3; border: 3px solid var(--navy); background: var(--tile); box-shadow: 0 0 0 3px var(--tile); transition: background .4s, transform .5s cubic-bezier(.3, 2, .5, 1); }
 .knot.tied { background: var(--thread); border-color: var(--thread); transform: scale(.85); }
@@ -105,7 +113,7 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .intro { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: clamp(24px, 5vw, 70px); padding-block: clamp(110px, 15vh, 160px) 10px; }
 .intro .plaque { padding: clamp(34px, 5vw, 64px) clamp(26px, 4.5vw, 60px); }
 .intro h1 { font-size: clamp(2.5rem, 5.6vw, 4.8rem); }
-.intro h1 em { font-style: italic; font-weight: 500; color: var(--rose); }
+.intro h1 em { font-style: italic; font-weight: 500; color: var(--rose-text); }
 .intro p { max-width: 32em; margin-top: 1.2em; }
 .pull { display: inline-flex; align-items: baseline; gap: 10px; margin-top: 1.4em; text-decoration: none; }
 .pull b { font-weight: 400; display: inline-block; animation: tug 2.2s ease-in-out infinite; }
@@ -161,7 +169,7 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 /* свой заказ */
 .maker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); gap: clamp(24px, 5vw, 70px); align-items: center; margin-top: clamp(26px, 4vh, 44px); }
 .maker fieldset { border: 0; padding: 0; margin: 0 0 1.5em; min-width: 0; }
-.maker legend { padding: 0; margin-bottom: .6em; font: italic 500 1.45em/1 var(--display); color: var(--rose); }
+.maker legend { padding: 0; margin-bottom: .6em; font: italic 500 1.45em/1 var(--display); color: var(--rose-text); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips label { position: relative; }
 .chips input { position: absolute; opacity: 0; inset: 0; }
@@ -241,6 +249,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 </style>
 </head>
 <body>
+<noscript><p style="padding:90px 20px 20px;text-align:center">Для показа каталога нужен JavaScript. Написать Александре можно в Telegram: <a href="https://t.me/ssshhinneee">@ssshhinneee</a>.</p></noscript>
 <div id="wall" aria-hidden="true"></div>
 
 <header class="top">
@@ -248,7 +257,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <button class="menu-btn" id="ball" aria-expanded="false" aria-controls="menu"><i aria-hidden="true"></i><span>меню</span></button>
 </header>
 
-<div class="menu" id="menu">
+<div class="menu" id="menu" aria-label="Меню">
   <nav class="plaque" aria-label="Разделы сайта">
     <a href="#veshi" style="--i:0">Вещи</a>
     <a href="#vse" style="--i:1">Свяжу что угодно</a>
@@ -332,7 +341,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
       <div class="frame" data-d="3"><div><img src="img/alexandra.jpg" alt="Александра, автор изделий ручной работы" loading="lazy"></div></div>
       <div>
         <p>Меня зовут Александра. Я вяжу крючком сумки, украшения и игрушки, а корзины и чехлы для телефона шью на швейной машинке из шнура.</p>
-        <p>Каждую вещь делаю сама, от первой петли до бирки. Поэтому двух одинаковых не бывает: даже если повторяю модель, она выходит чуть другой.</p>
+        <p>Каждую вещь делаю сама, вручную. Поэтому даже повторённая модель выходит чуть другой.</p>
         <p>Если хотите вещь в другом цвете или размере, напишите. Обсудим и сделаю под вас.</p>
         <span class="note-i">Александра</span>
       </div>
@@ -344,8 +353,8 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
     <h2>Как заказать</h2>
     <ol class="steps">
       <li><h3>Напишите в Telegram</h3><p>Нажмите «Хочу такую» у вещи или соберите свой заказ. Сообщение уже будет составлено.</p></li>
-      <li><h3>Обсудим детали</h3><p>Александра уточнит цвет, размер и срок, назовёт цену и расскажет про оплату и доставку.</p></li>
-      <li><h3>Получите вещь</h3><p>Готовую вещь Александра отправит вам. Заказную сначала сделает и покажет на фото.</p></li>
+      <li><h3>Обсудим детали</h3><p>Александра уточнит цвет, размер и срок, назовёт цену и договорится с вами об оплате и доставке.</p></li>
+      <li><h3>Получите вещь</h3><p>Готовую вещь можно забрать или получить по договорённости. Заказную Александра сделает и покажет на фото.</p></li>
     </ol>
   </section>
 
@@ -396,7 +405,7 @@ const CONFIG = {
   // «Свяжу что угодно»: [как написано на плитке, как в сообщении]
   any: [['Шапка', 'шапку'], ['Шарф', 'шарф'], ['Свитер', 'свитер'], ['Кардиган', 'кардиган'], ['Топ', 'топ'], ['Варежки', 'варежки'],
         ['Носки', 'носки'], ['Плед', 'плед'], ['Сумка', 'сумку'], ['Игрушка', 'игрушку'], ['Корзина', 'корзину'], ['Своя идея', 'вещь по своей идее']],
-  kinds: ['сумку', 'серьги', 'манжеты', 'воротник', 'игрушку', 'корзину', 'чехол для телефона', 'шапку', 'шарф', 'другое'],
+  kinds: ['сумку', 'серьги', 'манжеты', 'воротник', 'игрушку', 'корзину', 'чехол для телефона', 'коврик', 'брелок', 'шапку', 'шарф', 'другое'],
   yarns: [['голубой', '#8FC1DE'], ['синий', '#4A86B4'], ['тёмно-синий', '#234B6E'], ['бирюзовый', '#7FC4BD'], ['розовый', '#F4B3C2'], ['малиновый', '#D95F7F'],
           ['жёлтый', '#F3CE5F'], ['оливковый', '#8E9B4F'], ['молочный', '#EFE6D2'], ['бордо', '#6B2737']],
 };
@@ -453,7 +462,7 @@ function telegramUrl(text) {
 const itemsEl = $('#items'), spools = $('#spools');
 itemsEl.innerHTML = CONFIG.items.map((it, i) => `
   <article class="item" data-group="${it.group}">
-    <div class="frame" data-d="${i + 1}"><div><img src="img/${it.img}" alt="${it.name}" loading="lazy"></div></div>
+    <div class="frame" data-d="${i + 1}"><div><img src="img/${it.img}" alt="${it.name}" width="900" height="1200" loading="lazy"></div></div>
     <div class="card plaque"><i class="knot" data-knot></i>
       <span class="note-i">${CONFIG.groups[it.group].toLowerCase()}</span>
       <h3>${it.name}</h3>
@@ -552,7 +561,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape') menu(false); });
 const kinds = $('#kinds'), yarns = $('#yarns'), sw = $('#swatch'), said = $('#said');
 let spin = 0;
 kinds.innerHTML = CONFIG.kinds.map((k, i) => `<label><input type="radio" name="kind" id="kind${i}" value="${k}" ${i ? '' : 'checked'}><span>${k}</span></label>`).join('');
-yarns.innerHTML = CONFIG.yarns.map(([n, c], i) => `<label title="${n}"><input type="radio" name="yarn" id="yarn${i}" value="${n}" data-c="${c}" ${i === 4 ? 'checked' : ''}><span style="--c:${c}"><span hidden>${n}</span></span></label>`).join('');
+yarns.innerHTML = CONFIG.yarns.map(([n, c], i) => `<label title="${n}"><input type="radio" name="yarn" id="yarn${i}" value="${n}" data-c="${c}" aria-label="${n}" ${i === 4 ? 'checked' : ''}><span style="--c:${c}"></span></label>`).join('');
 function knit(turn) {
   const y = $('input[name=yarn]:checked'), k = $('input[name=kind]:checked'), c = y.dataset.c;
   sw.style.backgroundImage = tile(CONFIG.kinds.indexOf(k.value), { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
@@ -578,7 +587,7 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
     if (seen && Math.hypot(dx, dy) > 2) { let t = Math.atan2(dy, dx), d = t - ang; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; ang += d * .18; }
     mx = e.clientX; my = e.clientY;
     if (!seen) { seen = true; P.forEach(p => { p.x = p.px = mx; p.y = p.py = my; }); root.classList.add('rope'); }
-    bigTo = e.target.closest('a, button, label, textarea') ? 1 : 0;
+    bigTo = e.target.closest && e.target.closest('a, button, label, textarea') ? 1 : 0;
   });
   document.addEventListener('mouseleave', () => { seen = false; root.classList.remove('rope'); });
   (function loop() {
