@@ -3,20 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Тёплая петля</title>
-<meta name="description" content="Вязаные вещи и изделия из шнура ручной работы Александры. Готовые работы и заказ в своём цвете.">
+<title>Одна такая — вязаные сумки, игрушки и корзины ручной работы</title>
+<meta name="description" content="Вязаные крючком сумки, серьги, игрушки и корзины из шнура ручной работы. Мастер Александра, Москва. Готовые вещи от 400 ₽ и заказ в своём цвете через Telegram.">
 <meta name="theme-color" content="#FBF8EF">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Тёплая петля">
-<meta property="og:description" content="Вязаные вещи и изделия из шнура ручной работы Александры. Готовые работы и заказ в своём цвете.">
+<meta property="og:title" content="Одна такая — вещи ручной работы Александры">
+<meta property="og:url" content="https://s1mpleton123451-ai.github.io/vyazanie-site/">
+<link rel="canonical" href="https://s1mpleton123451-ai.github.io/vyazanie-site/">
+<meta property="og:description" content="Вязаные крючком сумки, серьги, игрушки и корзины из шнура ручной работы. Мастер Александра, Москва. Готовые вещи от 400 ₽ и заказ в своём цвете через Telegram.">
 <meta property="og:image" content="https://s1mpleton123451-ai.github.io/vyazanie-site/img/catalog-bear.jpg">
 <meta property="og:locale" content="ru_RU">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23FBF8EF'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23A3154B' stroke-width='6' stroke-dasharray='9 5'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%234A86B4'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Onest:wght@400;500;600&display=swap">
+<link rel="preload" href="fonts/cormorant-600-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/onest-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* шрифты лежат в папке fonts (Cormorant Garamond и Onest, лицензия SIL OFL), с Google ничего не грузится */
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500i-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500i-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: italic; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500i-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/cormorant-500-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/cormorant-600-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/cormorant-600-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/cormorant-600-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/onest-400-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/onest-400-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/onest-400-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/onest-500-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/onest-500-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/onest-500-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/onest-600-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/onest-600-latin-ext.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Onest'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/onest-600-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 /* Замысел: сайт как стена из пастельной португальской плитки. Орнамент вышит стежками, игла с ниткой прошивает страницу сверху вниз. */
 :root {
   --tile: #FBF8EF;
@@ -117,9 +137,6 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .intro h1 { font-size: clamp(2.5rem, 5.6vw, 4.8rem); }
 .intro h1 em { font-style: italic; font-weight: 500; color: var(--rose-text); }
 .intro p { max-width: 32em; margin-top: 1.2em; }
-.pull { display: inline-flex; align-items: baseline; gap: 10px; margin-top: 1.4em; text-decoration: none; }
-.pull b { font-weight: 400; display: inline-block; animation: tug 2.2s ease-in-out infinite; }
-@keyframes tug { 50% { transform: translateY(8px); } }
 
 /* фото в плиточной раме: 8 плиток в ширину, 10 в высоту, фото 3:4 */
 .frame { position: relative; aspect-ratio: 8 / 10; padding: 12.5%; background: var(--d) 0 0 / 12.5% 10%; box-shadow: 0 0 0 1px var(--grout), 0 34px 54px -28px var(--shadow); transition: transform .9s cubic-bezier(.3, 1.5, .5, 1); }
@@ -129,45 +146,88 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .intro .frame { justify-self: center; width: min(100%, 400px); animation: drop 1.3s cubic-bezier(.3, 1.4, .5, 1) backwards; }
 @keyframes drop { from { transform: translateY(-40px) rotate(-5deg); } }
 
-/* вещи */
+/* вещи: сетка карточек, товар крупно и сразу с ценой */
 .works { padding-top: clamp(60px, 10vh, 120px); }
 .works-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 40px; padding: clamp(20px, 3vw, 34px) clamp(26px, 4.5vw, 60px); }
 .works-head .knot { left: 50%; bottom: -17px; margin-left: -9px; }
 .spools { display: flex; flex-wrap: wrap; gap: 8px; }
-.spool { padding: .4em 1em; border: 1.5px solid var(--navy); background: var(--tile); font-weight: 500; font-size: .92em; transition: background .25s, color .25s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+.spool { display: inline-flex; align-items: center; gap: .5em; padding: .4em 1em; border: 1.5px solid var(--navy); background: var(--tile); font-weight: 500; font-size: .92em; transition: background .25s, color .25s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+.spool small { font-size: .8em; opacity: .85; font-variant-numeric: tabular-nums; }
 .spool:active { transform: scale(.97); }
 .spool[aria-pressed="true"] { background: var(--navy); color: var(--tile); }
-.items { display: grid; gap: clamp(56px, 9vh, 104px); padding-top: clamp(60px, 9vh, 110px); }
-.item { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 6vw, 90px); }
-.item .frame { width: min(100%, 440px); justify-self: end; }
-.item.flip .frame { order: 2; justify-self: start; --tilt: 1.5deg; }
-.card { justify-self: start; width: min(100%, 400px); padding: clamp(30px, 3.4vw, 46px) clamp(24px, 3vw, 40px) clamp(24px, 3vw, 36px); }
-.item.flip .card { justify-self: end; }
-.card .knot { left: 50%; top: -17px; margin-left: -9px; }
-.card.swing { animation: swing 1.3s cubic-bezier(.3, 1.4, .5, 1); }
-@keyframes swing { 0% { rotate: 3deg; } 40% { rotate: -2deg; } 70% { rotate: 1deg; } 100% { rotate: 0deg; } }
-.card h3 { font-size: clamp(1.8rem, 2.8vw, 2.4rem); margin: 0 0 .1em; }
-.card .note-i { display: block; font-size: 1.15em; margin-bottom: .7em; }
-.card p { font-size: .95em; }
-.card .cost { margin-top: .9em; font-weight: 600; }
-.want { display: inline-flex; align-items: center; gap: 8px; margin-top: 1.1em; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); text-decoration: none; transition: background .25s, gap .25s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+.items { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: clamp(16px, 2.4vw, 30px); padding-top: clamp(40px, 6vh, 64px); }
+.item { position: relative; display: flex; flex-direction: column; background: var(--tile); border: 6px solid var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 1px var(--grout), 0 26px 40px -28px var(--shadow); padding-bottom: 18px; transition: transform .35s cubic-bezier(.23, 1, .32, 1), box-shadow .35s; }
+.item .frame { width: 100%; aspect-ratio: 3 / 4; padding: 0; background: none; box-shadow: none; overflow: hidden; }
+.item .frame::before { inset: 0; border: 0; box-shadow: inset 0 0 0 1.5px var(--blue); }
+.item .frame div { position: relative; }
+.item .info { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 0; }
+.item h3 { font-size: clamp(1.4rem, 2vw, 1.75rem); }
+.item .kind { font: italic 500 1.05rem/1.2 var(--display); color: var(--rose-text); margin-top: .2em; }
+.item .price { margin: .55em 0 .8em; font-weight: 600; font-size: 1.08em; font-variant-numeric: tabular-nums; }
+.item .desc { margin-bottom: 1.1em; font-size: .9em; }
+.item .want { margin-top: auto; align-self: flex-start; }
+.want { display: inline-flex; align-items: center; gap: 8px; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); text-decoration: none; transition: background .25s, gap .25s, transform .16s cubic-bezier(.23, 1, .32, 1); }
 .want:active { transform: scale(.97); }
+
+/* окно вещи: крупное фото, материал, размер */
+.item { cursor: pointer; }
+.item .open { display: block; width: 100%; padding: 0; text-align: left; }
+html:has(dialog[open]) { overflow: hidden; }
+html:has(dialog[open]) #rope { display: none; }
+html.rope:has(dialog[open]), html.rope:has(dialog[open]) * { cursor: auto !important; }
+html.rope:has(dialog[open]) :is(a, button, label) { cursor: pointer !important; }
+dialog.view { margin: auto; border: 0; padding: 0; width: min(1000px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: auto; color: var(--ink); background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 7px var(--tile), 0 0 0 8.5px var(--blue), 0 44px 80px -30px var(--shadow); opacity: 0; scale: .97; translate: 0 10px; transition: opacity .22s, scale .22s cubic-bezier(.23, 1, .32, 1), translate .22s cubic-bezier(.23, 1, .32, 1), overlay .22s allow-discrete, display .22s allow-discrete; }
+dialog.view[open] { opacity: 1; scale: 1; translate: 0 0; }
+@starting-style { dialog.view[open] { opacity: 0; scale: .97; translate: 0 10px; } }
+dialog.view::backdrop { background: rgba(31, 63, 94, .6); }
+.view-in { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+.view-photo { background: var(--d) 0 0 / 80px; }
+.view-photo img { width: 100%; height: 100%; max-height: calc(100dvh - 24px); object-fit: cover; aspect-ratio: 3 / 4; }
+.view-info { position: relative; display: flex; flex-direction: column; padding: clamp(28px, 4vw, 52px) clamp(22px, 3.5vw, 46px) clamp(22px, 3vw, 34px); }
+.view-info .count { font-size: .85em; font-variant-numeric: tabular-nums; opacity: .8; }
+.view-info h3 { font-size: clamp(2rem, 3.6vw, 3rem); margin: .2em 0 .15em; }
+.view-info .price { font-size: 1.35em; font-weight: 600; margin-bottom: .8em; font-variant-numeric: tabular-nums; }
+.spec { margin: 1.3em 0; padding: 1em 0; border-block: 1.5px dashed var(--blue); display: grid; gap: .7em; }
+.spec div { display: grid; grid-template-columns: 6.5em 1fr; gap: 1em; }
+.spec dt { font: italic 500 1.2rem/1.2 var(--display); color: var(--rose-text); }
+.spec dd { margin: 0; font-size: .95em; }
+.view-act { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: auto; padding-top: 1em; }
+.view-nav { display: flex; gap: 8px; margin-left: auto; }
+.view-nav button, .view-info .x { display: grid; place-items: center; width: 44px; height: 44px; border: 1.5px solid var(--navy); background: var(--tile); font-size: 1.3rem; line-height: 1; transition: background .2s, color .2s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+.view-nav button:active, .view-info .x:active { transform: scale(.94); }
+.view-info .x { position: absolute; top: 12px; right: 12px; }
+.view-extra { display: flex; gap: 8px; margin-top: 1em; }
+.view-extra img { width: 64px; height: 84px; object-fit: cover; border: 1.5px solid var(--blue); }
+
+/* первый экран: факты и действия */
+.facts { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 1.2em 0 0; padding: 0; list-style: none; font-weight: 500; font-size: .95em; }
+.facts li { display: flex; align-items: center; gap: .5em; }
+.facts li::before { content: ""; flex: none; width: 7px; height: 7px; background: var(--rose-text); rotate: 45deg; }
+.hero-act { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin-top: 1.6em; }
+.link { font-weight: 600; text-decoration: underline; text-decoration-color: var(--rose); text-decoration-thickness: 1.5px; text-underline-offset: .28em; transition: color .2s, text-decoration-color .2s; }
+
+/* условия под шагами */
+.terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 3vw, 44px); margin: clamp(28px, 4vh, 44px) 0 0; padding-top: clamp(20px, 3vh, 30px); border-top: 1.5px dashed var(--blue); }
+.terms dt { font: italic 500 1.35rem/1.15 var(--display); color: var(--rose-text); }
+.terms dd { margin: .35em 0 0; font-size: .95em; }
+.tg-line { margin-top: 1.2em; font-size: .95em; }
+.tg-line a { font-weight: 600; text-decoration-color: var(--rose); text-underline-offset: .25em; }
 
 /* разделы-таблички */
 .panel { margin-top: clamp(60px, 10vh, 120px); padding: clamp(38px, 6vw, 70px) clamp(24px, 5vw, 70px); }
 .panel > p { max-width: 36em; margin-top: .9em; }
 
-/* свяжу что угодно: плитки переворачиваются */
-.any { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: clamp(8px, 1.2vw, 14px); margin-top: clamp(24px, 4vh, 44px); }
-.any a { position: relative; display: block; aspect-ratio: 1; perspective: 700px; text-decoration: none; }
-.any span { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; transition: transform .8s cubic-bezier(.3, 1.3, .5, 1); box-shadow: 0 0 0 1px var(--grout); }
-.any .f { background: var(--d) center / cover; }
-.any .f b { font: 600 1.25rem/1 var(--display); padding: .3em .7em; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 4px var(--tile); }
-.any .b { background: var(--navy); color: var(--tile); transform: rotateY(180deg); font: italic 500 1.35rem/1.15 var(--display); padding: 10px; text-align: center; }
-.any a:hover .f, .any a:focus-visible .f { transform: rotateY(-180deg); }
-.any a:hover .b, .any a:focus-visible .b { transform: rotateY(0); }
 
-/* свой заказ */
+/* свой заказ: вид вещи выбирается плиткой */
+.kinds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(8px, 1.1vw, 12px); max-width: 560px; }
+.kinds label { position: relative; display: block; aspect-ratio: 1; }
+.kinds input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; z-index: 1; }
+.kinds span { position: absolute; inset: 0; display: grid; place-items: center; background: var(--d) center / cover; box-shadow: 0 0 0 1px var(--grout); transition: transform .2s cubic-bezier(.23, 1, .32, 1), box-shadow .2s; pointer-events: none; }
+.kinds b { font: 600 1.05rem/1.05 var(--display); padding: .3em .55em; text-align: center; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 3px var(--tile); }
+.kinds input:checked + span { box-shadow: 0 0 0 3px var(--tile), 0 0 0 5.5px var(--rose-text); transform: scale(.94); }
+.kinds input:checked + span b { background: var(--navy); color: var(--tile); box-shadow: 0 0 0 3px var(--tile); }
+.kinds input:focus-visible + span { outline: 3px dashed var(--rose); outline-offset: 5px; }
+.kinds label:active span { transform: scale(.9); }
 .maker { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 320px); gap: clamp(24px, 5vw, 70px); align-items: center; margin-top: clamp(26px, 4vh, 44px); }
 .maker fieldset { border: 0; padding: 0; margin: 0 0 1.5em; min-width: 0; }
 .maker legend { padding: 0; margin-bottom: .6em; font: italic 500 1.45em/1 var(--display); color: var(--rose-text); }
@@ -221,16 +281,22 @@ footer .go { background: var(--pink); color: var(--ink); }
 footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 
 .dock { position: fixed; z-index: 50; right: max(var(--gutter), env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); background: var(--rose-text); color: #fff; box-shadow: 0 0 0 4px var(--tile), 0 14px 26px -8px var(--shadow); transition: transform .3s cubic-bezier(.3, 2, .5, 1), background .3s, opacity .25s, visibility .25s; }
+.dock { gap: 0; }
 .dock.away { opacity: 0; visibility: hidden; pointer-events: none; }
 
 /* наведение только там, где есть мышь: на телефоне после касания ничего не «залипает» */
 @media (hover: hover) and (pointer: fine) {
   .menu-btn:hover i { transform: rotate(180deg); }
+  .kinds label:hover input:not(:checked) + span { transform: translateY(-2px); box-shadow: 0 0 0 1px var(--grout), 0 12px 18px -10px var(--shadow); }
   .band i:hover { transform: rotate(90deg) scale(.86); }
   .spool:hover { transform: translateY(-2px); background: var(--aqua); }
   .spool[aria-pressed="true"]:hover { background: var(--navy); }
-  .item:hover .frame, .intro .frame:hover { transform: rotate(var(--tilt, -1.5deg)) translateY(-6px); }
-  .item:hover .frame img, .intro .frame:hover img { transform: scale(1.07); }
+  .item:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 1px var(--grout), 0 36px 50px -30px var(--shadow); }
+  .item:hover .frame img { transform: scale(1.03); }
+  .view-nav button:hover, .view-info .x:hover { background: var(--navy); color: var(--tile); }
+  .intro .frame:hover { transform: rotate(-1.5deg) translateY(-6px); }
+  .intro .frame:hover img { transform: scale(1.05); }
+  .link:hover { color: var(--rose-text); text-decoration-color: var(--rose-text); }
   .want:hover { background: var(--rose-text); gap: 14px; }
   .go:hover { transform: translateY(-3px); background: var(--rose-text); }
   .dock:hover { background: var(--navy); }
@@ -238,6 +304,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 }
 /* на сенсорном экране все кнопки не ниже 44 px */
 @media (pointer: coarse) {
+  .link, .tg-line a { display: inline-flex; align-items: center; min-height: 44px; }
   .spool, .want, .go { min-height: 44px; display: inline-flex; align-items: center; }
   .chips span { min-height: 44px; display: flex; align-items: center; }
   .yarns span { min-height: 0; }
@@ -253,19 +320,35 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   .menu-btn { padding: 4px; }
   .intro { grid-template-columns: 1fr; }
   .intro .frame { width: min(76%, 320px); }
-  .item, .item.flip { grid-template-columns: 1fr; gap: 0; }
-  .item .frame, .item.flip .frame { order: 0; width: 80%; justify-self: start; }
-  .item.flip .frame { justify-self: end; }
-  .card, .item.flip .card { width: 86%; justify-self: end; margin-top: -34px; z-index: 2; }
-  .item.flip .card { justify-self: start; }
+  .items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .item { border-width: 4px; padding-bottom: 12px; }
+  .item .info { padding: 10px 8px 0; }
+  .item h3 { font-size: 1.22rem; }
+  .item .kind { font-size: .95rem; }
+  .item .price { margin: .35em 0 .7em; font-size: 1em; }
+  .item .desc { display: none; }
+  .item .want { align-self: stretch; justify-content: center; padding: .55em .5em; font-size: .88em; }
+  .terms { grid-template-columns: 1fr; }
+  .view-in { grid-template-columns: 1fr; }
+  .view-photo img { aspect-ratio: 1; max-height: 52dvh; }
+  .view-info { padding: 22px 18px 18px; }
+  .view-info h3 { font-size: 2rem; }
+  .spec div { grid-template-columns: 5.5em 1fr; }
+  .view-act .go { flex: 1 1 100%; justify-content: center; }
+  .view-nav { margin-left: 0; width: 100%; justify-content: space-between; }
+  .hero-act .go { flex: 1 1 100%; justify-content: center; }
   .maker, .about { grid-template-columns: 1fr; }
+  .kinds { gap: 6px; max-width: none; }
+  .kinds b { font-size: .88rem; padding: .25em .3em; }
   .swatch { max-width: 210px; order: -1; }
   .about .frame { width: 78%; justify-self: center; }
   .steps { grid-template-columns: 1fr; }
-  .any { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .k-l { left: -13px; } .k-r { right: -13px; }
-  .dock { left: 50%; right: auto; translate: -50% 0; white-space: nowrap; }
-}
+  .dock { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); padding: .6em 1.1em; font-size: .9rem; box-shadow: 0 0 0 3px var(--tile), 0 10px 20px -8px var(--shadow); }
+  .dock .long { display: none; }
+  .mark { transition: opacity .25s; }
+  html.scrolled .mark { opacity: 0; pointer-events: none; }
+      }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
   html { scroll-behavior: auto; }
@@ -273,7 +356,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 </style>
 </head>
 <body>
-<noscript><p style="padding:90px 20px 20px;text-align:center">Для показа каталога нужен JavaScript. Написать Александре можно в Telegram: <a href="https://t.me/ssshhinneee">@ssshhinneee</a>.</p></noscript>
+<noscript><!--NOSCRIPT--><section style="padding:90px 20px 20px;max-width:760px;margin:auto"><p>Для работы каталога нужен JavaScript. Вещи ручной работы Александры:</p><ul><li><img src="img/catalog-bag-shell.jpg" alt="Сумка «Ракушки»" width="150" height="200" loading="lazy"> <b>Сумка «Ракушки»</b>, 3 200 ₽. Оливковая сумка с объёмным узором из ракушек. Короткие ручки, носится в руке или на локте.</li><li><img src="img/catalog-earrings.jpg" alt="Серьги-кольца" width="150" height="200" loading="lazy"> <b>Серьги-кольца</b>, 900 ₽. Большие лёгкие кольца, обвязанные крючком оливковой нитью.</li><li><img src="img/catalog-bear.jpg" alt="Мишка с вышивкой" width="150" height="200" loading="lazy"> <b>Мишка с вышивкой</b>, 2 400 ₽. Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.</li><li><img src="img/catalog-bag-navy.jpg" alt="Сумка тёмно-синяя" width="150" height="200" loading="lazy"> <b>Сумка тёмно-синяя</b>, 3 000 ₽. Тёмно-синяя сумка рельефной вязки с короткими ручками.</li><li><img src="img/catalog-cuffs.jpg" alt="Ажурные манжеты" width="150" height="200" loading="lazy"> <b>Ажурные манжеты</b>, 1 200 ₽. Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.</li><li><img src="img/catalog-mushroom.jpg" alt="Брелок-грибочек" width="150" height="200" loading="lazy"> <b>Брелок-грибочек</b>, 450 ₽. Маленький вязаный брелок в форме грибочка с красной шляпкой.</li><li><img src="img/catalog-collar.jpg" alt="Ажурный воротник" width="150" height="200" loading="lazy"> <b>Ажурный воротник</b>, 1 500 ₽. Съёмный воротник молочного цвета с завязками. Преображает платье, свитер или кардиган.</li><li><img src="img/catalog-egg-bunny.jpg" alt="Пасхальный зайчик" width="150" height="200" loading="lazy"> <b>Пасхальный зайчик</b>, 400 ₽. Миниатюрная подставка-зайчик для декоративного или пасхального яйца.</li><li><img src="img/catalog-rugs.jpg" alt="Набор джутовых ковриков" width="150" height="200" loading="lazy"> <b>Набор джутовых ковриков</b>, от 1 200 ₽. Круглые коврики из натурального джута с ажурным краем, несколько размеров.</li><li><img src="img/catalog-frog.jpg" alt="Лягушонок" width="150" height="200" loading="lazy"> <b>Лягушонок</b>, 1 800 ₽. Зелёный вязаный лягушонок в крошечных кедах.</li><li><img src="img/catalog-fluffy-bag.jpg" alt="Пушистая сумка" width="150" height="200" loading="lazy"> <b>Пушистая сумка</b>, 2 800 ₽. Мягкая серая сумка из фактурной пушистой пряжи с длинным ремешком.</li><li><img src="img/catalog-baskets-lids.jpg" alt="Корзины с крышками" width="150" height="200" loading="lazy"> <b>Корзины с крышками</b>, от 1 500 ₽. Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.</li><li><img src="img/catalog-basket-blue.jpg" alt="Голубая корзина" width="150" height="200" loading="lazy"> <b>Голубая корзина</b>, 2 200 ₽. Вместительная голубая корзина из шнура с синими и белыми помпонами.</li><li><img src="img/catalog-basket-flowers.jpg" alt="Корзина с цветами" width="150" height="200" loading="lazy"> <b>Корзина с цветами</b>, 2 600 ₽. Большая бежевая корзина из шнура с ручками и объёмными цветами.</li><li><img src="img/catalog-basket-yellow.jpg" alt="Корзина для пряжи" width="150" height="200" loading="lazy"> <b>Корзина для пряжи</b>, 2 400 ₽. Высокая трёхцветная корзина с ручками для пряжи, пледов или игрушек.</li><li><img src="img/catalog-phone-bag.jpg" alt="Сумка для телефона" width="150" height="200" loading="lazy"> <b>Сумка для телефона</b>, 1 600 ₽. Компактная сумка из шнура с карманом и длинным ремешком. Можно выбрать цвет.</li></ul><p>Написать Александре: <a href="https://t.me/ssshhinneee">Telegram @ssshhinneee</a>.</p></section><!--/NOSCRIPT--></noscript>
 <div id="wall" aria-hidden="true"></div>
 
 <header class="top">
@@ -284,7 +367,6 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 <div class="menu" id="menu" aria-label="Меню">
   <nav class="plaque" aria-label="Разделы сайта">
     <a href="#veshi" style="--i:0">Вещи</a>
-    <a href="#vse" style="--i:1">Свяжу что угодно</a>
     <a href="#zakaz" style="--i:2">Свой заказ</a>
     <a href="#sasha" style="--i:3">Об Александре</a>
     <a href="#kak" style="--i:4">Как заказать</a>
@@ -303,11 +385,15 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <section class="intro">
     <div class="plaque">
       <i class="knot k-l" data-knot></i>
-      <h1>Вязаные вещи и изделия из&nbsp;шнура <em>ручной работы</em></h1>
-      <p>Александра вяжет крючком и шьёт из шнура на машинке. Каждую вещь можно купить готовой или заказать в своём цвете.</p>
-      <a class="pull" href="#veshi"><span class="note-i">следуйте за иглой</span><b class="note-i">↓</b></a>
+      <h1>Вязаные сумки, игрушки и&nbsp;корзины <em>ручной работы</em></h1>
+      <p>Александра вяжет крючком и шьёт из шнура на машинке. Каждая вещь существует в одном экземпляре, а понравившуюся модель можно повторить в вашем цвете.</p>
+      <ul class="facts" id="facts"></ul>
+      <div class="hero-act">
+        <a class="go" href="#veshi">Смотреть вещи и цены</a>
+        <a class="link" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу спросить про ваши работы.">Написать в Telegram</a>
+      </div>
     </div>
-    <div class="frame" data-d="0"><div><img src="img/catalog-bear.jpg" alt="Вязаный мишка с вышитыми цветами" width="900" height="1200" fetchpriority="high"></div></div>
+    <div class="frame" data-d="0"><div><img src="img/catalog-bear.jpg" alt="Вязаный мишка с вышитыми цветами" width="750" height="1000" fetchpriority="high"></div></div>
   </section>
 
   <div class="band" aria-hidden="true"></div>
@@ -315,30 +401,21 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <section class="works" id="veshi">
     <div class="works-head plaque">
       <i class="knot" data-knot></i>
-      <h2>Вещи</h2>
+      <h2>Вещи и цены</h2>
       <div class="spools" id="spools" role="group" aria-label="Что показать"></div>
     </div>
     <div class="items" id="items"></div>
   </section>
 
-  <div class="band" aria-hidden="true"></div>
-
-  <section class="panel plaque" id="vse">
-    <i class="knot k-l" data-knot></i>
-    <h2>Сделаю на заказ</h2>
-    <p>На сайте только часть работ. Александра свяжет или сошьёт из шнура то, чего здесь пока нет. Нажмите на плитку, и сообщение соберётся само.</p>
-    <div class="any" id="any"></div>
-  </section>
-
   <section class="panel plaque" id="zakaz">
     <i class="knot k-r" data-knot></i>
     <h2>Свой заказ</h2>
-    <p>Выберите вещь и цвет. Александра получит ваше сообщение в Telegram и ответит по срокам и цене.</p>
+    <p>Нужной вещи нет в каталоге? Александра свяжет или сошьёт из шнура то, чего здесь пока нет. Выберите вещь и цвет, сообщение соберётся само, а ответ придёт в Telegram.</p>
     <form class="maker" id="maker">
       <div>
         <fieldset>
           <legend>что заказать</legend>
-          <div class="chips" id="kinds"></div>
+          <div class="kinds" id="kinds"></div>
         </fieldset>
         <fieldset>
           <legend>какого цвета</legend>
@@ -368,6 +445,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
         <p>Каждую вещь делаю сама, вручную. Поэтому даже повторённая модель выходит чуть другой.</p>
         <p>Если хотите вещь в другом цвете или размере, напишите. Обсудим и сделаю под вас.</p>
         <span class="note-i">Александра</span>
+        <p class="tg-line" id="tgline"></p>
       </div>
     </div>
   </section>
@@ -380,6 +458,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
       <li><h3>Обсудим детали</h3><p>Александра уточнит цвет, размер и срок, назовёт цену и договорится с вами об оплате и доставке.</p></li>
       <li><h3>Получите вещь</h3><p>Готовую вещь можно забрать или получить по договорённости. Заказную Александра сделает и покажет на фото.</p></li>
     </ol>
+    <dl class="terms" id="terms"></dl>
   </section>
 
   <section class="panel plaque" id="otzyvy">
@@ -399,39 +478,47 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <small data-brand-foot></small>
 </footer>
 
-<a class="go dock" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу заказать вещь.">Написать Александре</a>
+<a class="go dock" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу заказать вещь.">Написать<span class="long">&nbsp;Александре</span></a>
+<dialog class="view" id="view" aria-label="Вещь крупно"></dialog>
 <div class="toast" id="toast" role="status"></div>
 <canvas id="rope" aria-hidden="true"></canvas>
 
 <script>
 /* ===== НАСТРОЙКИ: всё, что нужно менять, лежит здесь ===== */
 const CONFIG = {
-  brand: 'Тёплая петля',        // рабочее название, поменять на настоящее
+  brand: 'Одна такая',          // название; выбрано по итогам совета 23.11.2026
   telegram: 'ssshhinneee',      // ник Александры в Telegram без @
   groups: { knit: 'Связано крючком', sewn: 'Сшито из шнура' },
-  items: [                      // фото 3:4 в папке img; price: '' пока цена не названа, например '2 500 ₽'
-    { group: 'knit',  name: 'Сумка «Ракушки»',       img: 'catalog-bag-shell.jpg',       price: '', text: 'Оливковая сумка с объёмным узором из ракушек. Короткие ручки, носится в руке или на локте.' },
-    { group: 'knit',  name: 'Серьги-кольца',         img: 'catalog-earrings.jpg',        price: '', text: 'Большие лёгкие кольца, обвязанные крючком оливковой нитью.' },
-    { group: 'knit',  name: 'Мишка с вышивкой',      img: 'catalog-bear.jpg',            price: '', text: 'Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.' },
-    { group: 'knit',  name: 'Сумка тёмно-синяя',     img: 'catalog-bag-navy.jpg',        price: '', text: 'Тёмно-синяя сумка рельефной вязки с короткими ручками.' },
-    { group: 'knit',  name: 'Ажурные манжеты',       img: 'catalog-cuffs.jpg',           price: '', text: 'Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.' },
-    { group: 'knit',  name: 'Брелок-грибочек',       img: 'catalog-mushroom.jpg',        price: '', text: 'Маленький вязаный брелок в форме грибочка с красной шляпкой.' },
-    { group: 'knit',  name: 'Ажурный воротник',      img: 'catalog-collar.jpg',          price: '', text: 'Съёмный воротник молочного цвета с завязками. Преображает платье, свитер или кардиган.' },
-    { group: 'knit',  name: 'Пасхальный зайчик',     img: 'catalog-egg-bunny.jpg',       price: '', text: 'Миниатюрная подставка-зайчик для декоративного или пасхального яйца.' },
-    { group: 'knit',  name: 'Набор джутовых ковриков', img: 'catalog-rugs.jpg',          price: '', text: 'Круглые коврики из натурального джута с ажурным краем, несколько размеров.' },
-    { group: 'knit',  name: 'Лягушонок',             img: 'catalog-frog.jpg',            price: '', text: 'Зелёный вязаный лягушонок в крошечных кедах.' },
-    { group: 'knit',  name: 'Пушистая сумка',        img: 'catalog-fluffy-bag.jpg',      price: '', text: 'Мягкая серая сумка из фактурной пушистой пряжи с длинным ремешком.' },
-    { group: 'sewn',  name: 'Корзины с крышками',    img: 'catalog-baskets-lids.jpg',    price: '', text: 'Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.' },
-    { group: 'sewn',  name: 'Голубая корзина',       img: 'catalog-basket-blue.jpg',     price: '', text: 'Вместительная голубая корзина из шнура с синими и белыми помпонами.' },
-    { group: 'sewn',  name: 'Корзина с цветами',     img: 'catalog-basket-flowers.jpg',  price: '', text: 'Большая бежевая корзина из шнура с ручками и объёмными цветами.' },
-    { group: 'sewn',  name: 'Корзина для пряжи',     img: 'catalog-basket-yellow.jpg',   price: '', text: 'Высокая трёхцветная корзина с ручками для пряжи, пледов или игрушек.' },
-    { group: 'sewn',  name: 'Сумка для телефона',    img: 'catalog-phone-bag.jpg',       price: '', text: 'Компактная сумка из шнура с карманом и длинным ремешком. Можно выбрать цвет.' },
+  // ВНИМАНИЕ: material и size у вещей, а также цены, сроки, доставка и время ответа ПРИДУМАНЫ для макета (23.11.2026). Сверить с Сашей и поправить здесь.
+  facts: ['от 400 ₽', 'Москва, отправка по России', 'на заказ за 1–3 недели'],
+  terms: [['Сроки', 'Готовые вещи отправляю в течение 2 дней. Вещь на заказ: от 1 до 3 недель, зависит от размера.'],
+          ['Доставка', 'По Москве встреча у метро. По России: Почта или СДЭК, стоимость по тарифу перевозчика.'],
+          ['Оплата', 'Переводом после того, как договоримся. Для вещи на заказ предоплата половины суммы.']],
+  reply: 'обычно отвечаю в течение дня',
+  // у вещи можно добавить extra: ['второе-фото.jpg'] (файл в папке img): фото появится в окне вещи
+  items: [                      // фото 3:4 в папке img; price: '' покажет «цену подскажет Александра»
+    { group: 'knit',  name: 'Сумка «Ракушки»',       img: 'catalog-bag-shell.jpg',       price: '3 200 ₽', text: 'Оливковая сумка с объёмным узором из ракушек. Короткие ручки, носится в руке или на локте.', material: 'хлопковая пряжа', size: 'около 28 × 24 см' },
+    { group: 'knit',  name: 'Серьги-кольца',         img: 'catalog-earrings.jpg',        price: '900 ₽', text: 'Большие лёгкие кольца, обвязанные крючком оливковой нитью.', material: 'хлопковая нить на металлической основе', size: 'диаметр около 6 см' },
+    { group: 'knit',  name: 'Мишка с вышивкой',      img: 'catalog-bear.jpg',            price: '2 400 ₽', text: 'Мягкий мишка из плюшевой пряжи. Цветы вышиты вручную, у каждого мишки они свои.', material: 'плюшевая пряжа, вышивка мулине', size: 'высота около 22 см' },
+    { group: 'knit',  name: 'Сумка тёмно-синяя',     img: 'catalog-bag-navy.jpg',        price: '3 000 ₽', text: 'Тёмно-синяя сумка рельефной вязки с короткими ручками.', material: 'хлопковая пряжа', size: 'около 30 × 25 см' },
+    { group: 'knit',  name: 'Ажурные манжеты',       img: 'catalog-cuffs.jpg',           price: '1 200 ₽', text: 'Съёмные манжеты цвета бордо. Надеваются под рукав пальто или свитера.', material: 'хлопковая нить', size: 'длина около 12 см' },
+    { group: 'knit',  name: 'Брелок-грибочек',       img: 'catalog-mushroom.jpg',        price: '450 ₽', text: 'Маленький вязаный брелок в форме грибочка с красной шляпкой.', material: 'хлопковая пряжа', size: 'высота около 6 см' },
+    { group: 'knit',  name: 'Ажурный воротник',      img: 'catalog-collar.jpg',          price: '1 500 ₽', text: 'Съёмный воротник молочного цвета с завязками. Преображает платье, свитер или кардиган.', material: 'хлопковая пряжа', size: 'ширина около 30 см, с завязками' },
+    { group: 'knit',  name: 'Пасхальный зайчик',     img: 'catalog-egg-bunny.jpg',       price: '400 ₽', text: 'Миниатюрная подставка-зайчик для декоративного или пасхального яйца.', material: 'хлопковая пряжа', size: 'высота около 8 см' },
+    { group: 'knit',  name: 'Набор джутовых ковриков', img: 'catalog-rugs.jpg',          price: 'от 1 200 ₽', text: 'Круглые коврики из натурального джута с ажурным краем, несколько размеров.', material: 'джутовый шнур', size: 'диаметры 15, 20 и 25 см' },
+    { group: 'knit',  name: 'Лягушонок',             img: 'catalog-frog.jpg',            price: '1 800 ₽', text: 'Зелёный вязаный лягушонок в крошечных кедах.', material: 'хлопковая пряжа', size: 'высота около 15 см' },
+    { group: 'knit',  name: 'Пушистая сумка',        img: 'catalog-fluffy-bag.jpg',      price: '2 800 ₽', text: 'Мягкая серая сумка из фактурной пушистой пряжи с длинным ремешком.', material: 'фактурная пушистая пряжа', size: 'около 26 × 20 см, ремешок 110 см' },
+    { group: 'sewn',  name: 'Корзины с крышками',    img: 'catalog-baskets-lids.jpg',    price: 'от 1 500 ₽', text: 'Сшиты на швейной машинке из шнура. Три размера, крышка с бусиной или петлёй.', material: 'хлопковый шнур, шитьё на машинке', size: 'три размера: S, M и L' },
+    { group: 'sewn',  name: 'Голубая корзина',       img: 'catalog-basket-blue.jpg',     price: '2 200 ₽', text: 'Вместительная голубая корзина из шнура с синими и белыми помпонами.', material: 'хлопковый шнур, шитьё на машинке', size: 'высота около 22 см' },
+    { group: 'sewn',  name: 'Корзина с цветами',     img: 'catalog-basket-flowers.jpg',  price: '2 600 ₽', text: 'Большая бежевая корзина из шнура с ручками и объёмными цветами.', material: 'хлопковый шнур, шитьё на машинке', size: 'высота около 28 см' },
+    { group: 'sewn',  name: 'Корзина для пряжи',     img: 'catalog-basket-yellow.jpg',   price: '2 400 ₽', text: 'Высокая трёхцветная корзина с ручками для пряжи, пледов или игрушек.', material: 'хлопковый шнур, шитьё на машинке', size: 'высота около 30 см' },
+    { group: 'sewn',  name: 'Сумка для телефона',    img: 'catalog-phone-bag.jpg',       price: '1 600 ₽', text: 'Компактная сумка из шнура с карманом и длинным ремешком. Можно выбрать цвет.', material: 'хлопковый шнур, шитьё на машинке', size: 'около 18 × 12 см, ремешок 120 см' },
   ],
   reviews: [],                  // настоящие отзывы: [{ who: 'Анна, Казань', text: 'Сумка пришла быстро, швы ровные.' }]
-  // «Свяжу что угодно»: [как написано на плитке, как в сообщении]
-  any: [['Шапка', 'шапку'], ['Шарф', 'шарф'], ['Свитер', 'свитер'], ['Кардиган', 'кардиган'], ['Топ', 'топ'], ['Варежки', 'варежки'],
-        ['Носки', 'носки'], ['Плед', 'плед'], ['Сумка', 'сумку'], ['Игрушка', 'игрушку'], ['Корзина', 'корзину'], ['Своя идея', 'вещь по своей идее']],
-  kinds: ['сумку', 'серьги', 'манжеты', 'воротник', 'игрушку', 'корзину', 'чехол для телефона', 'коврик', 'брелок', 'шапку', 'шарф', 'другое'],
+  // «Свой заказ»: [как написано на плитке, как в сообщении]
+  kinds: [['Сумка', 'сумку'], ['Серьги', 'серьги'], ['Игрушка', 'игрушку'], ['Корзина', 'корзину'], ['Чехол для телефона', 'чехол для телефона'], ['Шапка', 'шапку'],
+          ['Шарф', 'шарф'], ['Свитер', 'свитер'], ['Кардиган', 'кардиган'], ['Варежки', 'варежки'], ['Носки', 'носки'], ['Плед', 'плед'],
+          ['Манжеты', 'манжеты'], ['Воротник', 'воротник'], ['Коврик', 'коврик'], ['Своя идея', 'вещь по своей идее']],
   yarns: [['голубой', '#8FC1DE'], ['синий', '#4A86B4'], ['тёмно-синий', '#234B6E'], ['бирюзовый', '#7FC4BD'], ['розовый', '#F4B3C2'], ['малиновый', '#D95F7F'],
           ['жёлтый', '#F3CE5F'], ['оливковый', '#8E9B4F'], ['молочный', '#EFE6D2'], ['бордо', '#6B2737']],
 };
@@ -445,7 +532,6 @@ const root = document.documentElement;
 
 $$('[data-brand]').forEach(e => e.textContent = CONFIG.brand.toLowerCase());
 $('[data-brand-foot]').textContent = CONFIG.brand + '. Вещи ручной работы.';
-document.title = CONFIG.brand;
 
 /* --- плитка: формы с четырёх- и восьмилучевой симметрией, контур вышит стежками --- */
 const K = { tile: '#FBF8EF', grout: '#E6DFCF', navy: '#234B6E', blue: '#4A86B4', aqua: '#A5D3CF', pink: '#F4B3C2', rose: '#D95F7F', sun: '#F3CE5F' };
@@ -486,29 +572,32 @@ function telegramUrl(text) {
 /* --- вещи и фильтры --- */
 const itemsEl = $('#items'), spools = $('#spools');
 itemsEl.innerHTML = CONFIG.items.map((it, i) => `
-  <article class="item" data-group="${it.group}">
-    <div class="frame" data-d="${i + 1}"><div><img src="img/${it.img}" alt="${it.name}" width="900" height="1200" loading="lazy" decoding="async"></div></div>
-    <div class="card plaque"><i class="knot" data-knot></i>
+  <article class="item" data-group="${it.group}" data-i="${i}">
+    <button class="open" type="button" aria-label="Открыть крупно: ${it.name}"><div class="frame" data-d="${i + 1}"><div><img src="img/${it.img}" alt="${it.name}" width="750" height="1000" loading="lazy" decoding="async"></div></div></button>
+    <div class="info">
       <h3>${it.name}</h3>
-      <span class="note-i">${CONFIG.groups[it.group].toLowerCase()}</span>
-      <p>${it.text}</p>
-      <p class="cost">${it.price || 'Цену подскажет Александра'}. Можно повторить в вашем цвете.</p>
-      <a class="want" href="${telegramUrl(`Здравствуйте, Александра! Хочу такую вещь: ${it.name}.`)}" target="_blank" rel="noopener">Хочу такую <span aria-hidden="true">→</span></a>
+      <p class="price">${it.price || 'Цену подскажет Александра'}</p>
+      <p class="desc">${it.text}</p>
+      <a class="want" href="${telegramUrl(`Здравствуйте, Александра! Хочу такую вещь: ${it.name}${it.price ? ` (${it.price})` : ''}.`)}" target="_blank" rel="noopener">Хочу такую <span aria-hidden="true">→</span></a>
     </div>
   </article>`).join('');
 dress();
 $$('img').forEach(i => i.addEventListener('load', () => build()));
-spools.innerHTML = [['all', 'Всё'], ...Object.entries(CONFIG.groups)].map(([k, v], i) => `<button class="spool" data-g="${k}" aria-pressed="${!i}">${v}</button>`).join('');
+const count = g => CONFIG.items.filter(it => g === 'all' || it.group === g).length;
+spools.innerHTML = [['all', 'Всё'], ...Object.entries(CONFIG.groups)].map(([k, v], i) => `<button class="spool" data-g="${k}" aria-pressed="${!i}">${v} <small>${count(k)}</small></button>`).join('');
+$('#facts').innerHTML = CONFIG.facts.map(f => `<li>${f}</li>`).join('');
+$('#terms').innerHTML = CONFIG.terms.map(([t, d]) => `<div><dt>${t}</dt><dd>${d}</dd></div>`).join('');
+$('#tgline').innerHTML = `Telegram <a href="https://t.me/${CONFIG.telegram}" target="_blank" rel="noopener">@${CONFIG.telegram}</a>, ${CONFIG.reply}.`;
+/* пока нет настоящих отзывов, раздел и пункт меню не показываются */
+if (!CONFIG.reviews.length) { $('#otzyvy').remove(); $('a[href="#otzyvy"]').remove(); }
 function show(g) {
-  let n = 0;
-  $$('.item', itemsEl).forEach(el => { el.hidden = g !== 'all' && el.dataset.group !== g; if (!el.hidden) el.classList.toggle('flip', n++ % 2 === 1); });
+  $$('.item', itemsEl).forEach(el => { el.hidden = g !== 'all' && el.dataset.group !== g; });
   $$('.spool', spools).forEach(b => b.setAttribute('aria-pressed', b.dataset.g === g));
   build();
 }
 spools.addEventListener('click', e => { const b = e.target.closest('.spool'); if (b) show(b.dataset.g); });
 
 /* --- свяжу что угодно --- */
-$('#any').innerHTML = CONFIG.any.map(([a, b], i) => `<a href="${telegramUrl(`Здравствуйте, Александра! Хочу заказать ${b}.`)}" target="_blank" rel="noopener"><span class="f" style="--d:${T[i % T.length]}"><b>${a}</b></span><span class="b">Заказать<br>${b} →</span></a>`).join('');
 $$('[data-tg]').forEach(a => { a.href = telegramUrl(a.dataset.tg); a.target = '_blank'; a.rel = 'noopener'; });
 
 /* --- появление полос плитки --- */
@@ -564,8 +653,6 @@ function paint() {
     const on = shown >= k.len - 2;
     if (on !== k.el.classList.contains('tied')) {
       k.el.classList.toggle('tied', on);
-      const w = k.el.closest('.card');
-      if (w && on) { w.classList.remove('swing'); void w.offsetWidth; w.classList.add('swing'); }
     }
   });
 }
@@ -574,6 +661,27 @@ addEventListener('scroll', aim, { passive: true });
 new ResizeObserver(() => build()).observe(document.body);
 addEventListener('load', build);
 document.fonts && document.fonts.ready.then(build);
+
+addEventListener('scroll', () => root.classList.toggle('scrolled', scrollY > 260), { passive: true });
+
+/* --- окно вещи: крупное фото, листание стрелками --- */
+const view = $('#view'); let cur = 0;
+const shownIdx = () => $$('.item', itemsEl).filter(e => !e.hidden).map(e => +e.dataset.i);
+function fill() {
+  const it = CONFIG.items[cur], list = shownIdx(), pos = list.indexOf(cur), extra = (it.extra || []).map(f => `<img src="img/${f}" alt="" loading="lazy">`).join('');
+  view.innerHTML = `<div class="view-in"><div class="view-photo" style="--d:${T[(cur + 1) % T.length]}"><img src="img/${it.img}" alt="${it.name}"></div>
+    <div class="view-info"><button class="x" type="button" data-close aria-label="Закрыть">×</button>
+      <p class="count">${pos + 1} из ${list.length}</p><h3>${it.name}</h3><p class="price">${it.price || 'Цену подскажет Александра'}</p><p>${it.text}</p>
+      ${extra ? `<div class="view-extra">${extra}</div>` : ''}
+      <dl class="spec">${it.material ? `<div><dt>Материал</dt><dd>${it.material}</dd></div>` : ''}${it.size ? `<div><dt>Размер</dt><dd>${it.size}</dd></div>` : ''}<div><dt>Цвет</dt><dd>Можно повторить в вашем цвете, напишите, какой нужен</dd></div></dl>
+      <div class="view-act"><a class="go" href="${telegramUrl(`Здравствуйте, Александра! Хочу такую вещь: ${it.name}${it.price ? ` (${it.price})` : ''}.`)}" target="_blank" rel="noopener">Хочу такую</a>
+        <span class="view-nav"><button type="button" data-step="-1" aria-label="Предыдущая вещь">←</button><button type="button" data-step="1" aria-label="Следующая вещь">→</button></span></div>
+    </div></div>`;
+}
+function step(d) { const l = shownIdx(); cur = l[(l.indexOf(cur) + d + l.length) % l.length]; fill(); view.scrollTop = 0; }
+itemsEl.addEventListener('click', e => { if (e.target.closest('.want')) return; const a = e.target.closest('.item'); if (!a) return; cur = +a.dataset.i; fill(); view.showModal(); });
+view.addEventListener('click', e => { if (e.target === view || e.target.closest('[data-close]')) view.close(); const b = e.target.closest('[data-step]'); if (b) step(+b.dataset.step); });
+view.addEventListener('keydown', e => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
 
 /* --- плавающая кнопка уходит, когда на экране подвал с такой же кнопкой --- */
 new IntersectionObserver(([e]) => $('.dock').classList.toggle('away', e.isIntersecting)).observe($('footer'));
@@ -590,24 +698,28 @@ $('#menu').addEventListener('click', e => { if (e.target.closest('a')) menu(fals
 addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) { menu(false); ball.focus(); } });
 
 /* --- отзывы: пока список пуст, блок скрыт; добавлять сюда {who: 'Имя', text: 'Текст'} --- */
-$('#reviews').innerHTML = CONFIG.reviews.map(r => `<figure><blockquote>${r.text}</blockquote><figcaption>${r.who}</figcaption></figure>`).join('');
+/* разметка для поисковиков: список товаров */
+{ const ld = document.createElement('script'); ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'ItemList', name: CONFIG.brand, itemListElement: CONFIG.items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, item: Object.assign({ '@type': 'Product', name: it.name, description: it.text, image: new URL('img/' + it.img, location.href).href }, (it.price && /^\d[\d\s]*₽$/.test(it.price)) ? { offers: { '@type': 'Offer', priceCurrency: 'RUB', price: it.price.replace(/\D/g, ''), availability: 'https://schema.org/InStock' } } : {}) })) });
+  document.head.append(ld); }
+if ($('#reviews')) $('#reviews').innerHTML = CONFIG.reviews.map(r => `<figure><blockquote>${r.text}</blockquote><figcaption>${r.who}</figcaption></figure>`).join('');
 
 /* --- свой заказ: плитка перекрашивается в цвет пряжи --- */
 const kinds = $('#kinds'), yarns = $('#yarns'), sw = $('#swatch'), said = $('#said');
 let spin = 0;
-kinds.innerHTML = CONFIG.kinds.map((k, i) => `<label><input type="radio" name="kind" id="kind${i}" value="${k}" ${i ? '' : 'checked'}><span>${k}</span></label>`).join('');
+kinds.innerHTML = CONFIG.kinds.map(([a, b], i) => `<label><input type="radio" name="kind" value="${b}" data-n="${i}" ${i ? '' : 'checked'}><span style="--d:${T[i % T.length]}"><b>${a}</b></span></label>`).join('');
 yarns.innerHTML = CONFIG.yarns.map(([n, c], i) => `<label title="${n}"><input type="radio" name="yarn" id="yarn${i}" value="${n}" data-c="${c}" aria-label="${n}" ${i === 4 ? 'checked' : ''}><span style="--c:${c}"></span></label>`).join('');
 function knit(turn) {
   const y = $('input[name=yarn]:checked'), k = $('input[name=kind]:checked'), c = y.dataset.c;
-  sw.style.backgroundImage = tile(CONFIG.kinds.indexOf(k.value), { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
+  sw.style.backgroundImage = tile(+k.dataset.n, { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
   if (turn) sw.style.transform = `rotate(${(spin += 90)}deg)`;
-  said.textContent = k.value === 'другое' ? `другая вещь, цвет ${y.value}` : `${k.value}, цвет ${y.value}`;
+  said.textContent = `${k.value}, цвет ${y.value}`;
 }
 $('#maker').addEventListener('change', () => knit(true));
 $('#maker').addEventListener('submit', e => {
   e.preventDefault();
   const k = $('input[name=kind]:checked').value, y = $('input[name=yarn]:checked').value, w = $('#wish').value.trim();
-  location.href = telegramUrl(`Здравствуйте, Александра! Хочу заказать ${k === 'другое' ? 'вещь' : k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
+  location.href = telegramUrl(`Здравствуйте, Александра! Хочу заказать ${k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
 });
 
 /* --- курсор: пушистый помпон с мордашкой (мышь); сердечко (касание) --- */
