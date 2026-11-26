@@ -555,15 +555,15 @@ const hueShift = (hex, deg) => { const [r, g, b] = [1, 3, 5].map(i => parseInt(h
   if (dd) { s2 = l > .5 ? dd / (2 - mx - mn) : dd / (mx + mn); h = mx === r ? (g - b) / dd + (g < b ? 6 : 0) : mx === g ? (b - r) / dd + 2 : (r - g) / dd + 4; h *= 60; }
   h = (h + deg + 360) % 360; const f = n => { const k = (n + h / 30) % 12, a = s2 * Math.min(l, 1 - l); return Math.round((l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))) * 255).toString(16).padStart(2, '0'); };
   return '#' + f(0) + f(8) + f(4); };
-const wallCache = {};
-const wallAt = deg => wallCache[deg] || (wallCache[deg] = wall(.38, Object.fromEntries(Object.entries(BASE).map(([k, v]) => [k, hueShift(v, deg)]))));
+const WSTEPS = 6; /* фон темнеет к низу шестью ступенями: картинки считаются один раз, участки только ссылаются на них */
+const wallAt = deg => wall(.38, Object.fromEntries(Object.entries(BASE).map(([k, v]) => [k, hueShift(v, deg)])));
 const body = (i, p = BASE) => `<rect width="200" height="200" fill="${K.tile}"/>${DESIGNS[i % DESIGNS.length](p)}<rect x=".75" y=".75" width="198.5" height="198.5" fill="none" stroke="${K.grout}" stroke-width="1.5"/>`;
 const uri = svg => `url('data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, '%27')}')`;
 const tile = (i, p) => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">${body(i, p)}</svg>`);
 const wall = (fade, p = BASE) => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">${[0, 3, 1, 4, 2, 5].map((d, k) => `<svg x="${k % 3 * 200}" y="${(k / 3 | 0) * 200}" width="200" height="200" viewBox="0 0 200 200">${body(d, p)}</svg>`).join('')}${fade ? `<rect width="600" height="400" fill="${K.tile}" opacity="${fade}"/>` : ''}</svg>`);
 const corner = r => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g transform="rotate(${r} 50 50)">${sh(circ(0, 0, 62), K.aqua)}${sh(circ(0, 0, 36), K.pink)}${sh(circ(0, 0, 14), K.sun)}</g></svg>`);
 const T = DESIGNS.map((_, i) => tile(i));
-root.style.setProperty('--wall', wall(.38)); root.style.setProperty('--wall-full', wall(0)); root.style.setProperty('--m0', T[0]);
+root.style.setProperty('--wall', wall(.38)); root.style.setProperty('--wall-full', wall(0)); for (let k = 1; k < WSTEPS; k++) root.style.setProperty('--w' + k, wallAt(Math.round(k / (WSTEPS - 1) * HUE))); root.style.setProperty('--m0', T[0]);
 [0, 90, 180, 270].forEach((r, i) => root.style.setProperty('--c' + (i + 1), corner(r)));
 const dress = () => $$('[data-d]').forEach(e => e.style.setProperty('--d', T[+e.dataset.d % T.length]));
 $$('.band').forEach((b, j) => b.innerHTML = Array.from({ length: 18 }, (_, i) => `<i style="--d:${T[(i + j * 2) % T.length]};--n:${i}"></i>`).join(''));
@@ -619,7 +619,7 @@ function paintWall(H) {
   wallEl.style.height = H + 'px';
   if (wallEl.children.length !== n || wallEl.dataset.t != t) {
     wallEl.dataset.t = t;
-    wallEl.innerHTML = Array.from({ length: n }, (_, i) => { const a = Math.round(i / Math.max(1, n - 1) * HUE); return `<i style="height:${seg}px${a ? `;background-image:${wallAt(a)}` : ''}"></i>`; }).join('');
+    wallEl.innerHTML = Array.from({ length: n }, (_, i) => { const k = Math.round(i / Math.max(1, n - 1) * (WSTEPS - 1)); return `<i style="height:${seg}px${k ? `;background-image:var(--w${k})` : ''}"></i>`; }).join('');
   }
 }
 function build() {
