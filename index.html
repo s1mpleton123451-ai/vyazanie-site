@@ -69,7 +69,7 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 3.8rem); }
 p { margin: 0; text-wrap: pretty; }
 .note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose-text); }
 
-#rope { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 90; pointer-events: none; }
+#rope { position: fixed; left: 0; top: 0; width: 96px; height: 96px; z-index: 90; pointer-events: none; will-change: transform; transform: translate(-200px, -200px); }
 a, button, label { cursor: pointer; }
 /* Помпон заменяет курсор только после первого движения мыши; без движения и на касаниях остаётся обычный. */
 @media (hover: hover) and (pointer: fine) { html.rope, html.rope * { cursor: none !important; } }
@@ -730,7 +730,9 @@ $('#maker').addEventListener('submit', e => {
 if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
   const cv = $('#rope'), cx = cv.getContext('2d'), FLUFF = 14;
   let W, H, mx = -99, my = -99, x = 0, y = 0, vx = 0, vy = 0, big = 0, bigTo = 0, press = 0, down = 0, seen = false, t = 0;
-  const fit = () => { const r = devicePixelRatio || 1; W = cv.width = innerWidth * r; H = cv.height = innerHeight * r; cx.setTransform(r, 0, 0, r, 0, 0); };
+  /* маленький холст едет за мышью: браузеру не нужно перерисовывать весь экран каждый кадр */
+  const S = 96, C = S / 2;
+  const fit = () => { const r = devicePixelRatio || 1; W = H = S; cv.width = cv.height = S * r; cx.setTransform(r, 0, 0, r, 0, 0); };
   fit(); addEventListener('resize', fit);
   addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
@@ -740,17 +742,16 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
   addEventListener('mousedown', () => down = 1);
   addEventListener('mouseup', () => down = 0);
   document.addEventListener('mouseleave', () => { seen = false; down = 0; root.classList.remove('rope'); });
-  let lx = -999, ly = -999;
   (function loop() {
-    cx.clearRect(lx - 40, ly - 40, 80, 80);
+    cx.clearRect(0, 0, S, S);
     if (seen) {
-      lx = x; ly = y;
       t++;
       vx = (vx + (mx - x) * .32) * .56; vy = (vy + (my - y) * .32) * .56; x += vx; y += vy;
       big += (bigTo - big) * .18; press += (down - press) * .3;
       const sp = Math.hypot(vx, vy), st = Math.min(.2, sp * .012), ang = Math.atan2(vy, vx);
       const r = 15 * (1 + big * .28) * (1 - press * .14);
-      cx.save(); cx.translate(x, y);
+      cv.style.transform = `translate(${x - C}px, ${y - C}px)`;
+      cx.save(); cx.translate(C, C);
       /* тело: вытягивается по направлению движения */
       cx.save(); cx.rotate(ang); cx.scale(1 + st, 1 - st * .8);
       cx.beginPath();
