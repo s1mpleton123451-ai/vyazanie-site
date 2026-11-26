@@ -1,0 +1,91 @@
+# Настройки админки (Sveltia CMS). Вход: адрес сайта + /admin/, кнопка входа по токену GitHub.
+backend:
+  name: github
+  repo: s1mpleton123451-ai/vyazanie-site
+  branch: main
+  commit_messages:
+    update: 'Админка: обновлено «{{slug}}»'
+    uploadMedia: 'Админка: загружено фото {{path}}'
+    deleteMedia: 'Админка: удалено фото {{path}}'
+
+site_url: https://s1mpleton123451-ai.github.io/vyazanie-site/
+media_folder: img
+public_folder: /img
+
+# фото с телефона сами уменьшаются и сохраняются в лёгком формате webp
+media_libraries:
+  default:
+    config:
+      max_file_size: 25000000
+      transformations:
+        raster_image:
+          format: webp
+          quality: 82
+          width: 1500
+          height: 2000
+
+collections:
+  - name: site
+    label: Сайт
+    files:
+      - name: content
+        label: Вещи, цены и тексты
+        file: content/site.json
+        format: json
+        fields:
+          - { name: brand, label: Название сайта, widget: string }
+          - { name: telegram, label: Ник в Telegram (без @), widget: string, hint: 'Сюда приходят все заказы с сайта' }
+          - name: items
+            label: Вещи
+            label_singular: вещь
+            widget: list
+            add_to_top: true
+            collapsed: true
+            summary: '{{fields.name}} · {{fields.price}} · {{fields.status}}'
+            fields:
+              - { name: name, label: Название, widget: string }
+              - name: group
+                label: Раздел
+                widget: select
+                default: knit
+                options:
+                  - { label: Связано крючком, value: knit }
+                  - { label: Сшито из шнура, value: sewn }
+              - name: status
+                label: Статус
+                widget: select
+                default: available
+                options:
+                  - { label: В наличии, value: available }
+                  - { label: Под заказ, value: order }
+                  - { label: Продано, value: sold }
+              - { name: price, label: Цена, widget: string, required: false, hint: 'Например «2 500 ₽» или «от 1 200 ₽». Пусто: на сайте будет «Цену подскажет Александра»' }
+              - { name: photo, label: Главное фото, widget: image, hint: 'Лучше вертикальное 3:4. Большое фото с телефона уменьшится само' }
+              - { name: text, label: Описание, widget: text }
+              - { name: material, label: Материал, widget: string, required: false }
+              - { name: size, label: Размер, widget: string, required: false }
+              - name: extra
+                label: Ещё фото (видны в окне вещи)
+                widget: list
+                required: false
+                field: { name: photo, label: Фото, widget: image }
+          - name: facts
+            label: Короткие факты на первом экране
+            widget: list
+            field: { name: fact, label: Факт, widget: string }
+          - name: terms
+            label: Сроки, доставка, оплата
+            widget: list
+            summary: '{{fields.title}}'
+            fields:
+              - { name: title, label: Заголовок, widget: string }
+              - { name: text, label: Текст, widget: text }
+          - { name: reply, label: Время ответа, widget: string, hint: 'Например «обычно отвечаю в течение дня»' }
+          - name: reviews
+            label: Отзывы (пока список пуст, раздел на сайте скрыт)
+            widget: list
+            required: false
+            summary: '{{fields.who}}'
+            fields:
+              - { name: who, label: 'Кто (имя, город)', widget: string }
+              - { name: text, label: Отзыв, widget: text }
