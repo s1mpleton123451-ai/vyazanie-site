@@ -11,6 +11,6 @@ if len(sys.argv) != 2 or '.' not in sys.argv[1]:
 d = sys.argv[1].strip().lower().removeprefix('https://').removeprefix('http://').strip('/')
 new = f'https://{d}/'
 (root / 'CNAME').write_text(d + '\n')
-for f in ('index.html', 'sitemap.xml'):
+for f in ('index.html', 'sitemap.xml', '404.html', 'robots.txt'):
     p = root / f; t = p.read_text(encoding='utf-8'); p.write_text(t.replace(OLD, new), encoding='utf-8')
 print('готово:', new)

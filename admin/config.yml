@@ -16,7 +16,7 @@ public_folder: /img
 media_libraries:
   default:
     config:
-      max_file_size: 25000000
+      max_file_size: 15000000
       transformations:
         raster_image:
           format: webp
@@ -34,7 +34,7 @@ collections:
         format: json
         fields:
           - { name: brand, label: Название сайта, widget: string }
-          - { name: telegram, label: Ник в Telegram (без @), widget: string, hint: 'Сюда приходят все заказы с сайта' }
+          - { name: telegram, label: Ник в Telegram (без @), widget: string, hint: 'Сюда приходят все заказы с сайта. Можно с @ или без, сайт поймёт' }
           - name: items
             label: Вещи
             label_singular: вещь
@@ -60,10 +60,11 @@ collections:
                   - { label: Под заказ, value: order }
                   - { label: Продано, value: sold }
               - { name: price, label: Цена, widget: string, required: false, hint: 'Например «2 500 ₽» или «от 1 200 ₽». Пусто: на сайте будет «Цену подскажет Александра»' }
-              - { name: photo, label: Главное фото, widget: image, hint: 'Лучше вертикальное 3:4. Большое фото с телефона уменьшится само' }
+              - { name: photo, label: Главное фото, widget: image, hint: 'Лучше вертикальное 3:4, формат JPG или PNG (не HEIC). Большое фото с телефона уменьшится само' }
               - { name: text, label: Описание, widget: text }
               - { name: material, label: Материал, widget: string, required: false }
-              - { name: size, label: Размер, widget: string, required: false }
+              - { name: size, label: Размер, widget: string, required: false, hint: 'Например «около 28 × 24 см». Видно в карточке под ценой' }
+              - { name: color, label: Цвет, widget: string, required: false, hint: 'Необязательно. Например «оливковый» или «можно в другом цвете». Пусто: строки про цвет не будет' }
               - name: extra
                 label: Ещё фото (видны в окне вещи)
                 widget: list

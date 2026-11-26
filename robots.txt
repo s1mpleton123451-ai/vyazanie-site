@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Sitemap: https://s1mpleton123451-ai.github.io/vyazanie-site/sitemap.xml
