@@ -69,10 +69,10 @@ h2 { font-size: clamp(2.2rem, 4.8vw, 3.8rem); }
 p { margin: 0; text-wrap: pretty; }
 .note-i { font: italic 500 1.3em/1.15 var(--display); color: var(--rose-text); }
 
-#rope { display: none; }
+#rope { position: fixed; left: 0; top: 0; width: 96px; height: 96px; z-index: 90; pointer-events: none; will-change: transform; transform: translate(-200px, -200px); }
 a, button, label { cursor: pointer; }
 /* Помпон заменяет курсор только после первого движения мыши; без движения и на касаниях остаётся обычный. */
-/* картинку курсора-помпона задаёт скрипт: её рисует система, поэтому курсор не отстаёт от мыши */
+@media (hover: hover) and (pointer: fine) { html.rope, html.rope * { cursor: none !important; } }
 
 /* белая табличка на стене: гладкая плитка с тонкой синей линией и угловыми розетками */
 .plaque {
@@ -726,37 +726,59 @@ $('#maker').addEventListener('submit', e => {
   location.href = telegramUrl(`Здравствуйте, Александра! Хочу заказать ${k}, цвет ${y}.` + (w ? ` Пожелания: ${w}` : ''));
 });
 
-/* --- курсор: пушистый помпон с мордашкой (мышь); сердечко (касание) ---
-   Помпон отдаётся системе как картинка курсора: его рисует macOS/Windows, поэтому он не отстаёт от мыши
-   и не нагружает страницу, даже если браузер занят. Над ссылками и кнопками помпон радуется. */
+/* --- курсор: пушистый помпон с мордашкой (мышь); сердечко (касание) --- */
 if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
-  const BOX = 52, HOT = BOX / 2, FLUFF = 14;
-  const pom = (scale, happy) => {
-    const c = document.createElement('canvas'); c.width = c.height = BOX * scale;
-    const cx = c.getContext('2d'); cx.scale(scale, scale); cx.translate(HOT, HOT);
-    const r = 15 * (happy ? 1.28 : 1);
-    cx.beginPath();
-    for (let i = 0; i < FLUFF; i++) { const a = i / FLUFF * 6.2832; cx.moveTo(Math.cos(a) * r * .74 + r * .42, Math.sin(a) * r * .74); cx.arc(Math.cos(a) * r * .74, Math.sin(a) * r * .74, r * .42, 0, 6.2832); }
-    cx.moveTo(r * .8, 0); cx.arc(0, 0, r * .8, 0, 6.2832);
-    cx.lineJoin = 'round'; cx.strokeStyle = K.tile; cx.lineWidth = 5; cx.stroke();
-    cx.fillStyle = K.pink; cx.fill();
-    cx.beginPath(); cx.ellipse(-r * .38, -r * .5, r * .24, r * .13, -.6, 0, 6.2832); cx.fillStyle = 'rgba(255,255,255,.75)'; cx.fill();
-    cx.fillStyle = 'rgba(217,95,127,.42)';
-    [-1, 1].forEach(s => { cx.beginPath(); cx.ellipse(s * r * .52, r * .26, r * .17, r * .11, 0, 0, 6.2832); cx.fill(); });
-    cx.strokeStyle = cx.fillStyle = K.navy; cx.lineWidth = 1.8; cx.lineCap = 'round';
-    [-1, 1].forEach(s => { const ex = s * r * .3, ey = -r * .04; cx.beginPath();
-      if (happy) { cx.arc(ex, ey + r * .05, r * .11, 3.5, 5.9); cx.stroke(); } else { cx.arc(ex, ey, r * .09, 0, 6.2832); cx.fill(); } });
-    cx.beginPath(); cx.arc(0, r * .14, r * (happy ? .2 : .1), .15 * Math.PI, .85 * Math.PI); cx.stroke();
-    return c.toDataURL('image/png');
-  };
-  const cur = (happy, fb) => `url(${pom(1, happy)}) ${HOT} ${HOT}, ${fb}`;
-  const cur2 = (happy, fb) => `image-set(url(${pom(1, happy)}) 1x, url(${pom(2, happy)}) 2x) ${HOT} ${HOT}, ${fb}`;
-  const st = document.createElement('style');
-  st.textContent = `html.rope, html.rope * { cursor: ${cur(false, 'auto')} !important; cursor: ${cur2(false, 'auto')} !important; }
-html.rope :is(a, button, label, summary, select), html.rope :is(a, button, label) * { cursor: ${cur(true, 'pointer')} !important; cursor: ${cur2(true, 'pointer')} !important; }
-html.rope :is(textarea, input:not([type=radio]):not([type=checkbox])) { cursor: text !important; }`;
-  document.head.append(st);
-  addEventListener('mousemove', () => root.classList.add('rope'), { once: true });
+  const cv = $('#rope'), cx = cv.getContext('2d'), FLUFF = 14;
+  let W, H, mx = -99, my = -99, x = 0, y = 0, vx = 0, vy = 0, big = 0, bigTo = 0, press = 0, down = 0, seen = false, t = 0;
+  /* маленький холст едет за мышью: браузеру не нужно перерисовывать весь экран каждый кадр */
+  const S = 96, C = S / 2;
+  const fit = () => { const r = devicePixelRatio || 1; W = H = S; cv.width = cv.height = S * r; cx.setTransform(r, 0, 0, r, 0, 0); };
+  fit(); addEventListener('resize', fit);
+  addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    if (!seen) { seen = true; x = mx; y = my; vx = vy = 0; root.classList.add('rope'); }
+    bigTo = e.target.closest && e.target.closest('a, button, label, textarea, input') ? 1 : 0;
+  });
+  addEventListener('mousedown', () => down = 1);
+  addEventListener('mouseup', () => down = 0);
+  document.addEventListener('mouseleave', () => { seen = false; down = 0; root.classList.remove('rope'); });
+  (function loop() {
+    cx.clearRect(0, 0, S, S);
+    if (seen) {
+      t++;
+      vx = (vx + (mx - x) * .32) * .56; vy = (vy + (my - y) * .32) * .56; x += vx; y += vy;
+      big += (bigTo - big) * .18; press += (down - press) * .3;
+      const sp = Math.hypot(vx, vy), st = Math.min(.2, sp * .012), ang = Math.atan2(vy, vx);
+      const r = 15 * (1 + big * .28) * (1 - press * .14);
+      cv.style.transform = `translate(${x - C}px, ${y - C}px)`;
+      cx.save(); cx.translate(C, C);
+      /* тело: вытягивается по направлению движения */
+      cx.save(); cx.rotate(ang); cx.scale(1 + st, 1 - st * .8);
+      cx.beginPath();
+      for (let i = 0; i < FLUFF; i++) { const a = i / FLUFF * 6.2832, w = 1 + Math.sin(t * .05 + i * 1.7) * .05; cx.moveTo(Math.cos(a) * r * .74 * w + r * .42, Math.sin(a) * r * .74 * w); cx.arc(Math.cos(a) * r * .74 * w, Math.sin(a) * r * .74 * w, r * .42, 0, 6.2832); }
+      cx.moveTo(r * .8, 0); cx.arc(0, 0, r * .8, 0, 6.2832);
+      cx.lineJoin = 'round'; cx.strokeStyle = K.tile; cx.lineWidth = 5; cx.stroke();
+      cx.fillStyle = K.pink; cx.fill();
+      cx.restore();
+      /* блик и румянец */
+      cx.beginPath(); cx.ellipse(-r * .38, -r * .5, r * .24, r * .13, -.6, 0, 6.2832); cx.fillStyle = 'rgba(255,255,255,.75)'; cx.fill();
+      cx.fillStyle = 'rgba(217,95,127,.42)';
+      [-1, 1].forEach(s => { cx.beginPath(); cx.ellipse(s * r * .52, r * .26, r * .17, r * .11, 0, 0, 6.2832); cx.fill(); });
+      /* мордашка: на кнопках глаза зажмурены от радости, иногда моргает */
+      cx.strokeStyle = cx.fillStyle = K.navy; cx.lineWidth = 1.8; cx.lineCap = 'round';
+      const blink = t % 260 < 6 && big < .5;
+      [-1, 1].forEach(s => {
+        const ex = s * r * .3, ey = -r * .04;
+        cx.beginPath();
+        if (big > .5) { cx.arc(ex, ey + r * .05, r * .11, 3.5, 5.9); cx.stroke(); }
+        else if (blink) { cx.moveTo(ex - r * .1, ey); cx.lineTo(ex + r * .1, ey); cx.stroke(); }
+        else { cx.arc(ex, ey, r * .09, 0, 6.2832); cx.fill(); }
+      });
+      cx.beginPath(); cx.arc(0, r * .14, r * (.1 + big * .1), .15 * Math.PI, .85 * Math.PI); cx.stroke();
+      cx.restore();
+    }
+    requestAnimationFrame(loop);
+  })();
 } else if (!calm) {
   addEventListener('touchstart', e => {
     const t = e.touches[0], s = document.createElement('i');
