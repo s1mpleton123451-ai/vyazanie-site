@@ -108,7 +108,8 @@ main { position: relative; padding-inline: var(--gutter); }
 #thread { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
 #thread path { fill: none; stroke-linecap: round; }
 #thread .ghost { stroke: var(--navy); stroke-width: 1.6; stroke-dasharray: .1 9; opacity: .35; }
-#thread .under { stroke: var(--tile); stroke-width: 15; filter: drop-shadow(0 2px 3px rgba(31, 63, 94, .35)); }
+#thread .under { stroke: var(--tile); stroke-width: 15; }
+#thread .shade { stroke: rgba(31, 63, 94, .16); stroke-width: 17; transform: translateY(2px); }
 #thread .st { stroke: var(--thread); stroke-width: 5; stroke-dasharray: 16 10; }
 #needle { filter: drop-shadow(0 3px 4px rgba(31, 63, 94, .5)); }
 section[id] { scroll-margin-top: 84px; }
@@ -379,7 +380,7 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <svg id="thread" aria-hidden="true">
     <defs><mask id="rev" maskUnits="userSpaceOnUse"><path class="rev" stroke="#fff" stroke-width="26"/></mask></defs>
     <path class="ghost"/>
-    <g mask="url(#rev)"><path class="under"/><path class="st"/></g>
+    <g mask="url(#rev)"><path class="shade"/><path class="under"/><path class="st"/></g>
     <g id="needle"><path d="M-36 0L6 -3.4L18 0L6 3.4Z" fill="#1F3F5E" stroke="#FBF8EF" stroke-width="2.4" stroke-linejoin="round" paint-order="stroke"/><ellipse cx="-27" cy="0" rx="4.6" ry="1.3" fill="#F3CE5F"/></g>
   </svg>
 
@@ -549,10 +550,17 @@ const DESIGNS = [
   p => rot(sh(leaf, p.b), 4) + rot(sh(circ(100, 0, 17), p.c), 4) + rot(sh(petal(58, 16, 30), p.a), 8) + sh(circ(100, 100, 32), p.d) + rot(sh(petal(24, 8, 2), p.c), 8) + sh(circ(100, 100, 6), p.e),
 ];
 const BASE = { a: K.blue, b: K.pink, c: K.aqua, d: K.sun, e: K.rose, n: K.navy };
+/* сдвиг оттенка цвета (замена CSS-фильтра hue-rotate, который тормозил прокрутку) */
+const hueShift = (hex, deg) => { const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, dd = mx - mn; let h = 0, s2 = 0;
+  if (dd) { s2 = l > .5 ? dd / (2 - mx - mn) : dd / (mx + mn); h = mx === r ? (g - b) / dd + (g < b ? 6 : 0) : mx === g ? (b - r) / dd + 2 : (r - g) / dd + 4; h *= 60; }
+  h = (h + deg + 360) % 360; const f = n => { const k = (n + h / 30) % 12, a = s2 * Math.min(l, 1 - l); return Math.round((l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))) * 255).toString(16).padStart(2, '0'); };
+  return '#' + f(0) + f(8) + f(4); };
+const wallCache = {};
+const wallAt = deg => wallCache[deg] || (wallCache[deg] = wall(.38, Object.fromEntries(Object.entries(BASE).map(([k, v]) => [k, hueShift(v, deg)]))));
 const body = (i, p = BASE) => `<rect width="200" height="200" fill="${K.tile}"/>${DESIGNS[i % DESIGNS.length](p)}<rect x=".75" y=".75" width="198.5" height="198.5" fill="none" stroke="${K.grout}" stroke-width="1.5"/>`;
 const uri = svg => `url('data:image/svg+xml,${encodeURIComponent(svg).replace(/'/g, '%27')}')`;
 const tile = (i, p) => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">${body(i, p)}</svg>`);
-const wall = fade => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">${[0, 3, 1, 4, 2, 5].map((d, k) => `<svg x="${k % 3 * 200}" y="${(k / 3 | 0) * 200}" width="200" height="200" viewBox="0 0 200 200">${body(d)}</svg>`).join('')}${fade ? `<rect width="600" height="400" fill="${K.tile}" opacity="${fade}"/>` : ''}</svg>`);
+const wall = (fade, p = BASE) => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400">${[0, 3, 1, 4, 2, 5].map((d, k) => `<svg x="${k % 3 * 200}" y="${(k / 3 | 0) * 200}" width="200" height="200" viewBox="0 0 200 200">${body(d, p)}</svg>`).join('')}${fade ? `<rect width="600" height="400" fill="${K.tile}" opacity="${fade}"/>` : ''}</svg>`);
 const corner = r => uri(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g transform="rotate(${r} 50 50)">${sh(circ(0, 0, 62), K.aqua)}${sh(circ(0, 0, 36), K.pink)}${sh(circ(0, 0, 14), K.sun)}</g></svg>`);
 const T = DESIGNS.map((_, i) => tile(i));
 root.style.setProperty('--wall', wall(.38)); root.style.setProperty('--wall-full', wall(0)); root.style.setProperty('--m0', T[0]);
@@ -581,7 +589,6 @@ itemsEl.innerHTML = CONFIG.items.map((it, i) => `
     </div>
   </article>`).join('');
 dress();
-$$('img').forEach(i => i.addEventListener('load', () => build()));
 const count = g => CONFIG.items.filter(it => g === 'all' || it.group === g).length;
 spools.innerHTML = [['all', 'Всё'], ...Object.entries(CONFIG.groups)].map(([k, v], i) => `<button class="spool" data-g="${k}" aria-pressed="${!i}">${v} <small>${count(k)}</small></button>`).join('');
 $('#facts').innerHTML = CONFIG.facts.map(f => `<li>${esc(f)}</li>`).join('');
@@ -604,7 +611,7 @@ const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting
 $$('.band').forEach(b => io.observe(b));
 
 /* --- игла с ниткой прошивает страницу --- */
-const main = $('main'), svg = $('#thread'), paths = $$('path.ghost, path.under, path.st, path.rev', svg), rev = $('.rev', svg), mask = $('#rev'), needle = $('#needle');
+const main = $('main'), svg = $('#thread'), paths = $$('path.ghost, path.shade, path.under, path.st, path.rev', svg), rev = $('.rev', svg), mask = $('#rev'), needle = $('#needle');
 let knots = [], total = 0, table = [], shown = 0, want = 0;
 const wallEl = $('#wall');
 function paintWall(H) {
@@ -612,7 +619,7 @@ function paintWall(H) {
   wallEl.style.height = H + 'px';
   if (wallEl.children.length !== n || wallEl.dataset.t != t) {
     wallEl.dataset.t = t;
-    wallEl.innerHTML = Array.from({ length: n }, (_, i) => `<i style="height:${seg}px;filter:hue-rotate(${Math.round(i / Math.max(1, n - 1) * HUE)}deg)"></i>`).join('');
+    wallEl.innerHTML = Array.from({ length: n }, (_, i) => { const a = Math.round(i / Math.max(1, n - 1) * HUE); return `<i style="height:${seg}px${a ? `;background-image:${wallAt(a)}` : ''}"></i>`; }).join('');
   }
 }
 function build() {
@@ -657,9 +664,10 @@ function paint() {
 }
 function tick() { if (Math.abs(want - shown) > .5) { shown += (want - shown) * (calm ? 1 : .12); paint(); } requestAnimationFrame(tick); }
 addEventListener('scroll', aim, { passive: true });
-new ResizeObserver(() => build()).observe(document.body);
-addEventListener('load', build);
-document.fonts && document.fonts.ready.then(build);
+let queued = 0; const rebuild = () => { if (!queued) queued = requestAnimationFrame(() => { queued = 0; build(); }); };
+new ResizeObserver(rebuild).observe(document.body);
+addEventListener('load', rebuild);
+document.fonts && document.fonts.ready.then(rebuild);
 
 addEventListener('scroll', () => root.classList.toggle('scrolled', scrollY > 260), { passive: true });
 
@@ -732,9 +740,11 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
   addEventListener('mousedown', () => down = 1);
   addEventListener('mouseup', () => down = 0);
   document.addEventListener('mouseleave', () => { seen = false; down = 0; root.classList.remove('rope'); });
+  let lx = -999, ly = -999;
   (function loop() {
-    cx.clearRect(0, 0, W, H);
+    cx.clearRect(lx - 40, ly - 40, 80, 80);
     if (seen) {
+      lx = x; ly = y;
       t++;
       vx = (vx + (mx - x) * .32) * .56; vy = (vy + (my - y) * .32) * .56; x += vx; y += vy;
       big += (bigTo - big) * .18; press += (down - press) * .3;
