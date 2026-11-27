@@ -355,6 +355,26 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   *, *::before, *::after { animation: none !important; transition-duration: .01s !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Испанская гитара: включается только по нажатию, файлы не грузятся заранее */
+.guitar { position: fixed; z-index: 50; left: max(var(--gutter), env(safe-area-inset-left)); bottom: max(18px, env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 8px; font-family: var(--body); transition: opacity .25s, visibility .25s; }
+.guitar.away { opacity: 0; visibility: hidden; pointer-events: none; }
+.guitar button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--tile); color: var(--navy); cursor: pointer; display: grid; place-items: center; box-shadow: 0 0 0 1.5px var(--blue), 0 0 0 5px var(--tile), 0 12px 22px -8px var(--shadow); transition: transform .3s cubic-bezier(.16, 1, .3, 1), background .3s; }
+.guitar button:hover { transform: translateY(-2px); }
+.guitar button svg { width: 22px; height: 22px; }
+.guitar .next { width: 36px; height: 36px; }
+.guitar .next svg { width: 16px; height: 16px; }
+.guitar.on .play { background: var(--pink); }
+.guitar.on .play svg { animation: sway 1.6s ease-in-out infinite alternate; }
+@keyframes sway { from { rotate: -8deg; } to { rotate: 8deg; } }
+.guitar .next, .guitar .now { display: none; }
+.guitar.on .next { display: grid; }
+.guitar.on .now { display: block; }
+.guitar .now { max-width: min(46vw, 240px); padding: .45em .8em; background: var(--tile); color: var(--ink); font-size: .78em; line-height: 1.25; box-shadow: 0 0 0 1.5px var(--blue); }
+.guitar .now b { display: block; font-family: var(--display); font-size: 1.25em; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+footer .credits { display: block; max-width: 640px; margin: 18px auto 0; opacity: .6; font-size: .72em; line-height: 1.5; }
+footer .credits a { color: inherit; }
+@media (max-width: 560px) { .guitar .now { display: none !important; } }
 </style>
 </head>
 <body>
@@ -478,8 +498,14 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   <p>Спросить про вещь, цвет или срок можно в Telegram.</p>
   <a class="go" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу спросить про ваши работы.">Написать в Telegram</a>
   <small data-brand-foot></small>
+  <small class="credits">Музыка на сайте: «Romanza española» (исп. Алиса Гладышева, Alias Guitar, CC0); Ф. Таррега, «Recuerdos de la Alhambra» (исп. Carlo Alberto Boni, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.ru" rel="noopener" target="_blank">CC BY-SA 3.0</a>); Ф. Сор, ор. 35 № 17 и ор. 11 № 2 (исп. Jujutacular, CC BY-SA 3.0); И. Альбенис, «Leyenda» (исп. Michael Laucke, общественное достояние); Ф. Таррега, «Gran Vals» (исп. Joni Ikäläinen, CC0). Записи с <a href="https://commons.wikimedia.org/" rel="noopener" target="_blank">Wikimedia Commons</a>, сжаты для сайта.</small>
 </footer>
 
+<div class="guitar" id="guitar">
+  <button class="play" type="button" aria-label="Включить испанскую гитару" aria-pressed="false" title="Испанская гитара"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5" fill="currentColor"/><circle cx="17.5" cy="16" r="2.5" fill="currentColor"/></svg></button>
+  <button class="next" type="button" aria-label="Следующая мелодия" title="Дальше"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 5l9 7-9 7zM16 5h3v14h-3z"/></svg></button>
+  <div class="now" aria-live="polite"><b></b><span></span></div>
+</div>
 <a class="go dock" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу заказать вещь.">Написать<span class="long">&nbsp;Александре</span></a>
 <dialog class="view" id="view" aria-label="Вещь крупно"></dialog>
 <div class="toast" id="toast" role="status"></div>
@@ -788,6 +814,34 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches && !calm) {
 }
 
 show('all'); knit(false); tick();
+</script>
+<script>
+(() => {
+  const box = document.getElementById('guitar'); if (!box) return;
+  const list = [
+    ['romanza', 'Romanza española', 'испанский романс'],
+    ['alhambra', 'Recuerdos de la Alhambra', 'Франсиско Таррега'],
+    ['sor35', 'Этюд, ор. 35 № 17', 'Фернандо Сор'],
+    ['leyenda', 'Leyenda', 'Исаак Альбенис'],
+    ['sor11', 'Менуэт, ор. 11 № 2', 'Фернандо Сор'],
+    ['granvals', 'Gran Vals', 'Франсиско Таррега']
+  ];
+  const play = box.querySelector('.play'), next = box.querySelector('.next'), now = box.querySelector('.now');
+  const a = new Audio(); a.preload = 'none'; a.volume = .55;
+  let i = 0, started = false;
+  const load = () => { a.src = 'music/' + list[i][0] + '.m4a'; now.querySelector('b').textContent = list[i][1]; now.querySelector('span').textContent = list[i][2]; };
+  const set = on => { box.classList.toggle('on', on); play.setAttribute('aria-pressed', on); play.setAttribute('aria-label', on ? 'Выключить музыку' : 'Включить испанскую гитару'); };
+  play.addEventListener('click', () => {
+    if (!started) { load(); started = true; }
+    if (a.paused) a.play().then(() => set(true)).catch(() => set(false)); else { a.pause(); set(false); }
+  });
+  next.addEventListener('click', () => { i = (i + 1) % list.length; load(); a.play().then(() => set(true)).catch(() => set(false)); });
+  a.addEventListener('ended', () => { i = (i + 1) % list.length; load(); a.play().catch(() => set(false)); });
+  a.addEventListener('error', () => set(false));
+  /* у подвала прячется вместе с кнопкой «Написать» */
+  const dock = document.querySelector('.dock');
+  if (dock) new MutationObserver(() => box.classList.toggle('away', dock.classList.contains('away'))).observe(dock, { attributes: true, attributeFilter: ['class'] });
+})();
 </script>
 </body>
 </html>
