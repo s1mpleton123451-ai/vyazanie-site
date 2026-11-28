@@ -230,6 +230,16 @@ dialog.view .x { position: absolute; top: 12px; right: 12px; }
 .kinds label { position: relative; display: block; aspect-ratio: 1; }
 .kinds input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; z-index: 1; }
 .kinds span { position: absolute; inset: 0; display: grid; place-items: center; background: var(--d) center / cover; box-shadow: 0 0 0 1px var(--grout); transition: transform .2s cubic-bezier(.23, 1, .32, 1), box-shadow .2s; pointer-events: none; }
+.kinds span { grid-template-rows: auto auto; align-content: center; gap: 6px; }
+.ic { --sw: 1.5; width: 54%; aspect-ratio: 1; padding: 6%; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 3px var(--tile); overflow: visible; }
+.ic .f, .ic .l, .ic .t, .ic .x { stroke: var(--ys, #5c4a52); stroke-width: var(--sw); stroke-dasharray: 3 2.2; stroke-linecap: round; stroke-linejoin: round; transition: fill .35s, stroke .35s; }
+.ic .f { fill: var(--yc, #F4B3C2); }
+.ic .l { fill: var(--yl, #fbe3ea); }
+.ic .t { fill: none; }
+.ic .x { fill: none; }
+.ic .e { fill: var(--ys, #5c4a52); stroke: none; }
+.ic .r { fill: none; stroke-width: 4.5; stroke: var(--yc, #F4B3C2); stroke-dasharray: none; }
+.kinds input:checked + span .ic { box-shadow: inset 0 0 0 1.5px var(--rose-text), 0 0 0 3px var(--tile); }
 .kinds b { font: 600 1.05rem/1.05 var(--display); padding: .3em .55em; text-align: center; background: var(--tile); box-shadow: inset 0 0 0 1.5px var(--blue), 0 0 0 3px var(--tile); }
 .kinds input:checked + span { box-shadow: 0 0 0 3px var(--tile), 0 0 0 5.5px var(--rose-text); transform: scale(.94); }
 .kinds input:checked + span b { background: var(--navy); color: var(--tile); box-shadow: 0 0 0 3px var(--tile); }
@@ -251,7 +261,10 @@ dialog.view .x { position: absolute; top: 12px; right: 12px; }
 .maker textarea:focus { outline: 0; border-color: var(--rose-text); box-shadow: 0 0 0 3px rgba(184, 54, 92, .16); }
 .small { font-size: .86em; margin-top: .7em; }
 .swatch { justify-self: center; width: 100%; max-width: 320px; text-align: center; }
-.swatch div { aspect-ratio: 1; background: center / 50% 50%; box-shadow: 0 0 0 6px var(--tile), 0 0 0 7.5px var(--blue), 0 30px 44px -24px var(--shadow); transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
+.swatch div { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--tile); box-shadow: 0 0 0 6px var(--tile), 0 0 0 7.5px var(--blue), 0 30px 44px -24px var(--shadow); }
+.swatch .orn { position: absolute; inset: -1px; background: center / 50% 50%; opacity: .32; transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
+.swatch .thing { position: absolute; inset: 14%; display: grid; place-items: center; background: var(--tile); border-radius: 50%; box-shadow: 0 0 0 2px var(--tile), 0 0 0 3.5px var(--blue); }
+.ic.big { --sw: 1.1; width: 70%; padding: 0; background: none; box-shadow: none; }
 .swatch output { display: block; margin-top: 1em; font: italic 500 1.5em/1.15 var(--display); }
 .go { display: inline-flex; align-items: center; gap: 10px; padding: .85em 1.7em; background: var(--navy); color: var(--tile); font-weight: 600; text-decoration: none; transition: transform .3s cubic-bezier(.16, 1, .3, 1), background .3s; }
 .go:active { transform: scale(.97); transition-duration: .12s; }
@@ -354,6 +367,8 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   .maker, .about { grid-template-columns: 1fr; }
   .kinds { gap: 6px; max-width: none; }
   .kinds b { font-size: .88rem; padding: .25em .3em; }
+  .kinds span { gap: 4px; }
+  .ic { width: 46%; padding: 5%; }
   .swatch { max-width: 130px; order: -1; }
   .about .frame { width: 78%; justify-self: center; }
   .steps { grid-template-columns: 1fr; }
@@ -463,7 +478,7 @@ footer .credits a { color: inherit; }
         <button class="go" type="submit">Отправить Александре в Telegram</button>
       </div>
       <div class="swatch">
-        <div id="swatch" role="img" aria-label="Плитка выбранного цвета"></div>
+        <div id="swatch" role="img" aria-label="Выбранная вещь в выбранном цвете"></div>
         <output id="said" for="kinds yarns"></output>
       </div>
     </form>
@@ -791,14 +806,41 @@ addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.cont
 if ($('#reviews')) $('#reviews').innerHTML = CONFIG.reviews.map(r => `<figure><blockquote>${esc(r.text)}</blockquote><figcaption>${esc(r.who)}</figcaption></figure>`).join('');
 
 /* --- свой заказ: плитка перекрашивается в цвет пряжи --- */
-const kinds = $('#kinds'), yarns = $('#yarns'), sw = $('#swatch'), said = $('#said');
+
+const ICON = {
+  'Сумка': '<path class="f" d="M9 19h30l-3 22H12z"/><path class="x" d="M17 19c0-9 14-9 14 0"/><path class="x" d="M12 27h24M11.5 34h25"/>',
+  'Серьги': '<path class="x" d="M14 6v6M34 6v6"/><circle class="f r" cx="14" cy="25" r="10"/><circle class="t" cx="14" cy="25" r="5.5"/><circle class="f r" cx="34" cy="25" r="10"/><circle class="t" cx="34" cy="25" r="5.5"/>',
+  'Игрушка': '<circle class="f" cx="14" cy="11" r="5"/><circle class="f" cx="34" cy="11" r="5"/><circle class="f" cx="24" cy="18" r="10"/><ellipse class="f" cx="24" cy="36" rx="11" ry="9"/><circle class="l" cx="24" cy="21" r="3.5"/><circle class="e" cx="20.5" cy="16" r="1.4"/><circle class="e" cx="27.5" cy="16" r="1.4"/>',
+  'Корзина': '<path class="x" d="M13 16c0-10 22-10 22 0"/><path class="f" d="M7 16h34l-4 25H11z"/><path class="x" d="M8.5 24h31M9.8 32h28.4"/>',
+  'Чехол для телефона': '<path class="x" d="M17 9c-4-6 18-6 14 0"/><rect class="f" x="14" y="9" width="20" height="32" rx="4"/><path class="x" d="M14 20h20"/><circle class="l" cx="24" cy="31" r="3"/>',
+  'Шапка': '<circle class="l" cx="24" cy="9" r="5"/><path class="f" d="M9 32c0-22 30-22 30 0z"/><rect class="f" x="7" y="31" width="34" height="9" rx="2"/><path class="x" d="M13 33v5M19 33v5M25 33v5M31 33v5M37 33v5"/>',
+  'Шарф': '<path class="f" d="M10 12c6 6 22 6 28 0v8c-6 6-22 6-28 0z"/><path class="f" d="M27 22h8v18h-8z"/><path class="x" d="M28 42v3M31 42v3M34 42v3M30 28h4"/>',
+  'Свитер': '<path class="f" d="M17 8l-10 5-3 17 6 1 2-9v21h24V22l2 9 6-1-3-17-10-5c-1 4-3 6-7 6s-6-2-7-6z"/><path class="x" d="M12 38h24"/>',
+  'Кардиган': '<path class="f" d="M17 8l-10 5-3 17 6 1 2-9v21h24V22l2 9 6-1-3-17-10-5c-1 4-3 6-7 6s-6-2-7-6z"/><path class="x" d="M24 14v29"/><circle class="l" cx="27" cy="21" r="1.6"/><circle class="l" cx="27" cy="28" r="1.6"/><circle class="l" cx="27" cy="35" r="1.6"/>',
+  'Варежки': '<path class="f" d="M15 42V20c0-8 4-12 10-12s9 4 9 11v4l4-3c3-2 6 2 3 5l-7 8v9z"/><path class="x" d="M15 36h19"/>',
+  'Носки': '<path class="f" d="M17 5h14v20l5 6c4 5 0 12-6 10l-12-4c-4-1-5-4-3-8l2-4z"/><path class="x" d="M17 11h14"/>',
+  'Плед': '<path class="f" d="M8 10h28l4 4v24H12l-4-4z"/><path class="x" d="M8 16h32M8 23h32M8 30h32M16 10v28M24 10v28M32 10v28"/>',
+  'Манжеты': '<rect class="f" x="7" y="12" width="14" height="24" rx="3"/><rect class="f" x="27" y="12" width="14" height="24" rx="3"/><path class="x" d="M7 18h14M27 18h14M10 22v10M14 22v10M18 22v10M30 22v10M34 22v10M38 22v10"/>',
+  'Воротник': '<path class="x" d="M9 17c8-8 22-8 30 0"/><path class="f" d="M24 18c-6-1-14 0-16 5-2 6 5 10 11 7 3-2 5-5 5-8z"/><path class="f" d="M24 18c6-1 14 0 16 5 2 6-5 10-11 7-3-2-5-5-5-8z"/><circle class="l" cx="24" cy="20" r="2"/>',
+  'Коврик': '<circle class="f" cx="24" cy="24" r="19"/><circle class="t" cx="24" cy="24" r="13"/><circle class="t" cx="24" cy="24" r="7"/><circle class="x" cx="24" cy="24" r="2"/>',
+  'Своя идея': '<circle class="f" cx="22" cy="27" r="15"/><path class="x" d="M10 21c8 3 16 3 24 0M8 29c9 3 19 3 28 0M14 38c4-10 4-20-2-24M27 13c5 9 5 19 1 28"/><path class="x" d="M33 9l9-6"/>',
+};
+const icon = (name, big) => `<svg class="ic${big ? ' big' : ''}" viewBox="0 0 48 48" aria-hidden="true">${ICON[name] || ICON['Своя идея']}</svg>`;
+const kinds = $('#kinds'), yarns = $('#yarns'), sw = $('#swatch'), said = $('#said'), maker = $('#maker');
+sw.innerHTML = '<i class="orn"></i><span class="thing"></span>';
+const orn = $('.orn', sw), thing = $('.thing', sw);
 let spin = 0;
-kinds.innerHTML = CONFIG.kinds.map(([a, b], i) => `<label><input type="radio" name="kind" value="${b}" data-n="${i}" ${i ? '' : 'checked'}><span style="--d:${T[i % T.length]}"><b>${a}</b></span></label>`).join('');
+kinds.innerHTML = CONFIG.kinds.map(([a, b], i) => `<label><input type="radio" name="kind" value="${b}" data-n="${i}" ${i ? '' : 'checked'}><span style="--d:${T[i % T.length]}"><b>${a}</b>${icon(a)}</span></label>`).join('');
 yarns.innerHTML = CONFIG.yarns.map(([n, c], i) => `<label title="${n}"><input type="radio" name="yarn" id="yarn${i}" value="${n}" data-c="${c}" aria-label="${n}" ${i === 4 ? 'checked' : ''}><span style="--c:${c}"></span></label>`).join('');
 function knit(turn) {
   const y = $('input[name=yarn]:checked'), k = $('input[name=kind]:checked'), c = y.dataset.c;
-  sw.style.backgroundImage = tile(+k.dataset.n, { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
-  if (turn) sw.style.transform = `rotate(${(spin += 90)}deg)`;
+  orn.style.backgroundImage = tile(+k.dataset.n, { a: c, b: tint(c, .55), c: tint(c, .75), d: tint(c, .35), e: shade(c, .75), n: shade(c, .6) });
+  if (turn) orn.style.transform = `rotate(${(spin += 90)}deg)`;
+  /* все рисунки вещей — цвета выбранной пряжи */
+  maker.style.setProperty('--yc', c); maker.style.setProperty('--ys', shade(c, .55)); maker.style.setProperty('--yl', tint(c, .6));
+  const name = CONFIG.kinds[+k.dataset.n][0];
+  if (thing.dataset.k !== name) { thing.dataset.k = name; thing.innerHTML = icon(name, true); }
+  if (turn && !calm) thing.animate([{ transform: 'scale(.9)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(.16, 1, .3, 1)' });
   said.textContent = `${k.value}, цвет ${y.value}`;
 }
 $('#maker').addEventListener('change', () => knit(true));
