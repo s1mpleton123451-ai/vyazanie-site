@@ -60,6 +60,7 @@ collections:
                   - { label: В наличии, value: available }
                   - { label: Под заказ, value: order }
                   - { label: Продано, value: sold }
+              - { name: reserved_until, label: 'В резерве до (ГГГГ-ММ-ДД)', widget: string, required: false, hint: 'Например 2026-12-05. До этой даты на сайте «В резерве», потом вещь сама снова свободна. Пусто — не в резерве. Удобнее ставить кнопкой «Резерв» в боте' }
               - { name: price, label: Цена, widget: string, required: false, hint: 'Например «2 500 ₽» или «от 1 200 ₽». Пусто: на сайте будет «Цену подскажет Александра»' }
               - { name: photo, label: Главное фото, widget: image, hint: 'Лучше вертикальное 3:4, формат JPG или PNG (не HEIC). Большое фото с телефона уменьшится само' }
               - { name: text, label: Описание, widget: text }

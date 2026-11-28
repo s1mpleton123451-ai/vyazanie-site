@@ -165,6 +165,12 @@ section { position: relative; z-index: 1; max-width: 1180px; margin-inline: auto
 .badge { display: inline-block; margin-left: .6em; padding: .12em .55em; font-size: .72em; font-weight: 600; letter-spacing: .02em; vertical-align: .15em; border: 1.5px solid currentColor; }
 .badge-sold { color: var(--rose-text); }
 .badge-order { color: var(--navy); }
+.badge-reserved { color: var(--navy); border-style: dashed; }
+.acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: auto; }
+.item .acts .want { margin-top: 0; }
+.add { padding: .45em .2em; font: inherit; font-weight: 600; font-size: .9em; color: var(--navy); background: none; border: 0; border-bottom: 1.5px solid currentColor; cursor: pointer; transition: color .2s, transform .16s cubic-bezier(.23, 1, .32, 1); }
+.add:active { transform: scale(.97); }
+.add[aria-pressed="true"] { color: var(--rose-text); }
 .item.is-sold img { filter: saturate(.55) opacity(.8); }
 .want { display: inline-flex; align-items: center; gap: 8px; padding: .5em 1.2em; font-weight: 600; background: var(--navy); color: var(--tile); text-decoration: none; transition: background .25s, gap .25s, transform .16s cubic-bezier(.23, 1, .32, 1); }
 .want:active { transform: scale(.97); }
@@ -332,6 +338,9 @@ footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
   .item .desc { display: none; }
   .item .size { margin: -.3em 0 .6em; font-size: .8em; }
   .item .want { align-self: stretch; justify-content: center; padding: .55em .5em; font-size: .88em; }
+  .item .acts { flex-direction: column; align-items: stretch; gap: 6px; }
+  .item .acts .want { width: 100%; }
+  .add { min-height: 40px; text-align: center; border-bottom: 0; text-decoration: underline; text-underline-offset: 3px; }
   .terms { grid-template-columns: 1fr; }
   .view-in { grid-template-columns: 1fr; }
   .view-photo img { height: auto; max-height: 55dvh; }
@@ -480,9 +489,10 @@ footer .credits a { color: inherit; }
     <i class="knot k-r" data-knot></i>
     <h2>Как заказать</h2>
     <ol class="steps">
-      <li><h3>Напишите в Telegram</h3><p>Нажмите «Хочу такую» у вещи или соберите свой заказ. Сообщение уже будет составлено.</p></li>
-      <li><h3>Обсудим детали</h3><p>Александра уточнит цвет, размер и срок, назовёт цену и договорится с вами об оплате и доставке.</p></li>
-      <li><h3>Получите вещь</h3><p>Готовую вещь можно забрать или получить по договорённости. Заказную Александра сделает и покажет на фото.</p></li>
+      <li><h3>Выберите и напишите</h3><p>Нажмите «Хочу такую» у вещи. Если нравится несколько, добавьте их кнопкой «В список» и отправьте одним сообщением. Текст уже будет составлен, остаётся отправить его в Telegram.</p></li>
+      <li><h3>Обсудим детали</h3><p>Александра подтвердит, что вещь свободна, уточнит цвет, размер и срок и договорится с вами о доставке. Доставку оплачивает покупатель.</p></li>
+      <li><h3>Оплатите переводом</h3><p>Когда всё согласовано, оплата переводом по СБП. Для вещи на заказ сначала предоплата половины суммы.</p></li>
+      <li><h3>Получите вещь</h3><p>Готовую вещь Александра отправит Почтой или СДЭК и пришлёт трек-номер, а по Москве можно встретиться у метро. Вещь на заказ она сначала покажет на фото.</p></li>
     </ol>
     <dl class="terms" id="terms"></dl>
   </section>
@@ -547,12 +557,20 @@ const AVIF = new Set(["alexandra", "catalog-bag-navy", "catalog-bag-shell", "cat
 const photo = (f, attrs) => { const p = pic(f), b = p.replace(/^img\//, '').replace(/\.jpg$/, '');
   return p.endsWith('.jpg') && AVIF.has(b) ? `<picture><source srcset="img/${b}.avif" type="image/avif"><img src="${p}" ${attrs}></picture>` : `<img src="${p}" ${attrs}>`; };
 const BADGE = { sold: 'Продано', order: 'Под заказ' };
+/* резерв: в site.json поле reserved_until (ГГГГ-ММ-ДД); после этой даты вещь сама снова свободна */
+const today = new Date().toLocaleDateString('sv-SE');
+const isReserved = it => it.status !== 'sold' && !!it.reserved_until && String(it.reserved_until) >= today;
+const ddmm = d => String(d).slice(8, 10) + '.' + String(d).slice(5, 7);
 const priceText = it => it.status === 'sold' ? '' : esc(it.price || 'Цену подскажет Александра');
-const badge = it => BADGE[it.status] ? `<span class="badge badge-${it.status}">${BADGE[it.status]}</span>` : '';
-const wantLabel = it => it.status === 'sold' ? 'Хочу похожую' : 'Хочу такую';
+const badge = it => isReserved(it) ? `<span class="badge badge-reserved">В резерве до ${ddmm(it.reserved_until)}</span>`
+  : BADGE[it.status] ? `<span class="badge badge-${it.status}">${BADGE[it.status]}</span>` : '';
+const wantLabel = it => it.status === 'sold' ? 'Хочу похожую' : isReserved(it) ? 'Спросить' : 'Хочу такую';
 const wantMsg = it => it.status === 'sold'
   ? `Здравствуйте, Александра! Хочу похожую вещь, как «${it.name}» (на сайте она отмечена как проданная).`
+  : isReserved(it)
+  ? `Здравствуйте, Александра! Меня интересует «${it.name}». Вижу, что она в резерве: напишите, пожалуйста, если освободится, или можно ли связать такую же?`
   : `Здравствуйте, Александра! Хочу такую вещь: ${it.name}${it.price ? ` (${it.price})` : ''}.`;
+const canList = it => it.status !== 'sold' && !isReserved(it);
 const HUE = -22; // на сколько градусов цвет орнамента уходит к низу страницы; минус = синий к бирюзе, жёлтый к коралловому. Плюс даёт лаванду и салат, не ставить
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -616,7 +634,8 @@ itemsEl.innerHTML = CONFIG.items.map((it, i) => `
       <p class="price">${priceText(it)}${badge(it)}</p>${it.size ? `
       <p class="size">${esc(it.size)}</p>` : ''}
       <p class="desc">${esc(it.text)}</p>
-      <a class="want" href="${telegramUrl(wantMsg(it))}" target="_blank" rel="noopener">${wantLabel(it)} <span aria-hidden="true">→</span></a>
+      <div class="acts"><a class="want" href="${telegramUrl(wantMsg(it))}" target="_blank" rel="noopener">${wantLabel(it)} <span aria-hidden="true">→</span></a>${canList(it) ? `
+      <button class="add" type="button" data-add="${i}" aria-pressed="false">+ В список</button>` : ''}</div>
     </div>
   </article>`).join('');
 dress();
@@ -714,14 +733,44 @@ function fill() {
       <p class="count">${pos + 1} из ${list.length}</p><h3>${esc(it.name)}</h3><p class="price">${priceText(it)}${badge(it)}</p><p>${esc(it.text)}</p>
       ${extra ? `<div class="view-extra">${extra}</div>` : ''}
       <dl class="spec">${it.material ? `<div><dt>Материал</dt><dd>${esc(it.material)}</dd></div>` : ''}${it.size ? `<div><dt>Размер</dt><dd>${esc(it.size)}</dd></div>` : ''}${it.color ? `<div><dt>Цвет</dt><dd>${esc(it.color)}</dd></div>` : ''}</dl>
-      <div class="view-act"><a class="go" href="${telegramUrl(wantMsg(it))}" target="_blank" rel="noopener">${wantLabel(it)}${it.price && it.status !== 'sold' ? ` · ${esc(it.price)}` : ''}</a>
+      <div class="view-act"><a class="go" href="${telegramUrl(wantMsg(it))}" target="_blank" rel="noopener">${wantLabel(it)}${it.price && it.status !== 'sold' ? ` · ${esc(it.price)}` : ''}</a>${canList(it) ? `<button class="add" type="button" data-add="${cur}" aria-pressed="false">+ В список</button>` : ''}
         <span class="view-nav"><button type="button" data-step="-1" aria-label="Предыдущая вещь">←</button><button type="button" data-step="1" aria-label="Следующая вещь">→</button></span></div>
     </div></div>`;
 }
 function step(d) { const l = shownIdx(); cur = l[(l.indexOf(cur) + d + l.length) % l.length]; fill(); view.scrollTop = 0; }
-itemsEl.addEventListener('click', e => { if (e.target.closest('.want')) return; const a = e.target.closest('.item'); if (!a) return; cur = +a.dataset.i; fill(); view.showModal(); });
+itemsEl.addEventListener('click', e => { if (e.target.closest('.want, .add')) return; const a = e.target.closest('.item'); if (!a) return; cur = +a.dataset.i; fill(); view.showModal(); });
 view.addEventListener('click', e => { if (e.target === view || e.target.closest('[data-close]')) view.close(); const b = e.target.closest('[data-step]'); if (b) step(+b.dataset.step); });
 view.addEventListener('keydown', e => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); });
+
+/* --- список: несколько вещей одним сообщением (хранится только в этом браузере) --- */
+const LKEY = 'sv-list';
+let picked = [];
+try { picked = JSON.parse(localStorage.getItem(LKEY) || '[]'); } catch (e) { picked = []; }
+const byName = n => CONFIG.items.find(it => it.name === n);
+picked = picked.filter(n => byName(n) && canList(byName(n)));
+const dockEl = $('.dock'), dockHTML = dockEl.innerHTML, dockTg = dockEl.dataset.tg;
+const toastEl = $('#toast'); let toastT;
+function toast(t) { toastEl.textContent = t; toastEl.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => toastEl.classList.remove('on'), 2600); }
+function listMsg() {
+  return 'Здравствуйте, Александра! Хочу заказать с сайта:\n' + picked.map((n, k) => { const it = byName(n); return `${k + 1}. ${n}${it.price ? ` — ${it.price}` : ''}`; }).join('\n') + '\nПодскажите, пожалуйста, всё ли свободно и как с доставкой.';
+}
+function syncList() {
+  try { localStorage.setItem(LKEY, JSON.stringify(picked)); } catch (e) {}
+  $$('[data-add]').forEach(b => { const on = picked.includes(CONFIG.items[+b.dataset.add].name); b.setAttribute('aria-pressed', on); b.textContent = on ? '✓ В списке' : '+ В список'; });
+  if (picked.length) { dockEl.textContent = `Отправить список (${picked.length})`; dockEl.href = telegramUrl(listMsg()); }
+  else { dockEl.innerHTML = dockHTML; dockEl.href = telegramUrl(dockTg); }
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-add]'); if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const n = CONFIG.items[+b.dataset.add].name, k = picked.indexOf(n);
+  if (k < 0) { picked.push(n); toast(`«${n}» в списке. Отправить Александре — кнопкой внизу справа.`); }
+  else { picked.splice(k, 1); toast(`«${n}» убрана из списка.`); }
+  syncList();
+}, true);
+const fillPlain = fill;
+fill = function () { fillPlain(); syncList(); };
+syncList();
 
 /* --- плавающая кнопка уходит, когда на экране подвал или форма заказа со своими кнопками --- */
 const hideDock = new Set(), dockIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? hideDock.add(e.target) : hideDock.delete(e.target)); $('.dock').classList.toggle('away', hideDock.size > 0); });
