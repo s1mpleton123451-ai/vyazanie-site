@@ -35,6 +35,7 @@ collections:
         fields:
           - { name: brand, label: Название сайта, widget: string }
           - { name: telegram, label: Ник в Telegram (без @), widget: string, hint: 'Сюда приходят все заказы с сайта. Можно с @ или без, сайт поймёт' }
+          - { name: channel, label: Telegram-канал (без @), widget: string, required: false, hint: 'Ссылка на канал внизу сайта и в блоке «Об Александре». Пусто — ссылки не будет' }
           - name: items
             label: Вещи
             label_singular: вещь

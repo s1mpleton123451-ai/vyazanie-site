@@ -279,6 +279,8 @@ footer .knot { left: 50%; top: -9px; margin-left: -9px; }
 footer h2 { font-size: clamp(2.4rem, 6vw, 4.8rem); }
 footer p { margin: 1em auto 1.6em; max-width: 30em; }
 footer .go { background: var(--pink); color: var(--ink); }
+footer .channel-line { margin: 1.4em auto 0; }
+footer .channel-line a { color: inherit; }
 footer small { display: block; margin-top: 3em; font-size: .82em; opacity: .8; }
 
 .dock { position: fixed; z-index: 50; right: max(var(--gutter), env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); background: var(--rose-text); color: #fff; box-shadow: 0 0 0 4px var(--tile), 0 14px 26px -8px var(--shadow); transition: transform .3s cubic-bezier(.16, 1, .3, 1), background .3s, opacity .25s, visibility .25s; }
@@ -469,6 +471,7 @@ footer .credits a { color: inherit; }
         <p>Если хотите вещь в другом цвете или размере, напишите. Обсудим и сделаю под вас.</p>
         <span class="note-i">Александра</span>
         <p class="tg-line" id="tgline"></p>
+        <p class="tg-line" data-channel hidden></p>
       </div>
     </div>
   </section>
@@ -498,6 +501,7 @@ footer .credits a { color: inherit; }
   <h2>Нить закончилась.<br>Напишите Александре.</h2>
   <p>Спросить про вещь, цвет или срок можно в Telegram.</p>
   <a class="go" href="#" data-tg="Здравствуйте, Александра! Пишу с сайта, хочу спросить про ваши работы.">Написать в Telegram</a>
+  <p class="channel-line" data-channel hidden></p>
   <small data-brand-foot></small>
   <small class="credits">Музыка на сайте: «Romanza española» (исп. Алиса Гладышева, Alias Guitar, CC0); Ф. Таррега, «Recuerdos de la Alhambra» (исп. Carlo Alberto Boni, <a href="https://creativecommons.org/licenses/by-sa/3.0/deed.ru" rel="noopener" target="_blank">CC BY-SA 3.0</a>); Ф. Сор, ор. 35 № 17 и ор. 11 № 2 (исп. Jujutacular, CC BY-SA 3.0); И. Альбенис, «Leyenda» (исп. Michael Laucke, общественное достояние); Ф. Таррега, «Gran Vals» (исп. Joni Ikäläinen, CC0). Записи с <a href="https://commons.wikimedia.org/" rel="noopener" target="_blank">Wikimedia Commons</a>, сжаты для сайта.</small>
 </footer>
@@ -621,6 +625,8 @@ spools.innerHTML = [['all', 'Всё'], ...Object.entries(CONFIG.groups)].map(([k
 $('#facts').innerHTML = CONFIG.facts.map(f => `<li>${esc(f)}</li>`).join('');
 $('#terms').innerHTML = CONFIG.terms.map(t => `<div><dt>${esc(t.title)}</dt><dd>${esc(t.text)}</dd></div>`).join('');
 $('#tgline').innerHTML = `Telegram <a href="https://t.me/${esc(CONFIG.telegram)}" target="_blank" rel="noopener">@${esc(CONFIG.telegram)}</a>${CONFIG.reply ? `, ${esc(CONFIG.reply)}` : ''}.`;
+CONFIG.channel = String(CONFIG.channel || '').trim().replace(/^@/, '').replace(/^https?:\/\/t\.me\//, '');
+if (CONFIG.channel) $$('[data-channel]').forEach(p => { p.innerHTML = `Новые вещи первыми — в Telegram-канале <a href="https://t.me/${esc(CONFIG.channel)}" target="_blank" rel="noopener">«${esc(CONFIG.brand)}»</a>.`; p.hidden = false; });
 /* пока нет настоящих отзывов, раздел и пункт меню не показываются */
 if (!CONFIG.reviews.length) { $('#otzyvy').remove(); $('a[href="#otzyvy"]').remove(); }
 function show(g) {
