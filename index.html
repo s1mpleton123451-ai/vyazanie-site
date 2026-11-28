@@ -533,7 +533,7 @@ try {
 }
 CONFIG.brand = CONFIG.brand || 'Саша вяжет';
 CONFIG.telegram = String(CONFIG.telegram || 'ssshhinneee').trim().replace(/^@/, '').replace(/^https?:\/\/t\.me\//, '');
-CONFIG.items = (CONFIG.items || []).filter(it => it.name && it.photo);
+CONFIG.items = (CONFIG.items || []).filter(it => it.name && it.photo && !it.hidden);
 CONFIG.reviews = (CONFIG.reviews || []).filter(r => r.text);
 CONFIG.facts = CONFIG.facts || []; CONFIG.terms = CONFIG.terms || [];
 const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);

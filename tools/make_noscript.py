@@ -9,7 +9,7 @@ p = root / 'index.html'
 s = p.read_text(encoding='utf-8')
 d = json.loads((root / 'content' / 'site.json').read_text(encoding='utf-8'))
 brand, tg = d.get('brand') or 'Вязаные вещи', d.get('telegram') or ''
-items = [it for it in d.get('items', []) if it.get('name') and it.get('photo')]
+items = [it for it in d.get('items', []) if it.get('name') and it.get('photo') and not it.get('hidden')]
 E = html.escape
 src = lambda f: str(f).lstrip('/')
 def price(it):

@@ -65,6 +65,7 @@ collections:
               - { name: material, label: Материал, widget: string, required: false }
               - { name: size, label: Размер, widget: string, required: false, hint: 'Например «около 28 × 24 см». Видно в карточке под ценой' }
               - { name: color, label: Цвет, widget: string, required: false, hint: 'Необязательно. Например «оливковый» или «можно в другом цвете». Пусто: строки про цвет не будет' }
+              - { name: hidden, label: Скрыть с сайта, widget: boolean, required: false, default: false, hint: 'Вещь остаётся в списке, но на сайте её не видно (так же работает кнопка «Скрыть» в боте)' }
               - name: extra
                 label: Ещё фото (видны в окне вещи)
                 widget: list
